@@ -1,6 +1,6 @@
 """Market 모델 테스트."""
 import pytest
-from pyloa.models.market import MarketItem, Trade
+from pyloa.models.market import MarketItem, TradeMarketItem, TradeMarket, MarketItemStats, MarketStatsInfo
 
 
 def test_market_item_from_dict():
@@ -13,8 +13,8 @@ def test_market_item_from_dict():
         'BundleCount': 10,
         'TradeRemainCount': 3,
         'YDayAvgPrice': 10.5,
-        'RecentPrice': 11.0,
-        'CurrentMinPrice': 10.0
+        'RecentPrice': 11,
+        'CurrentMinPrice': 10
     }
     
     item = MarketItem.from_dict(data)
@@ -24,7 +24,7 @@ def test_market_item_from_dict():
     assert item.grade == '일반'
     assert item.bundle_count == 10
     assert item.y_day_avg_price == 10.5
-    assert item.recent_price == 11.0
+    assert item.recent_price == 11
 
 
 def test_market_item_optional_prices():
@@ -46,37 +46,60 @@ def test_market_item_optional_prices():
     assert item.current_min_price is None
 
 
-def test_trade_from_dict():
-    """Trade는 API 응답에서 변환되어야 합니다."""
+def test_trade_market_item_from_dict():
+    """TradeMarketItem은 API 응답에서 변환되어야 합니다."""
     data = {
-        'Date': '2024-01-07T10:30:00',
-        'Price': 1000,
-        'Quantity': 5
+        'Id': 66102004,
+        'Name': '파괴강석',
+        'Grade': '일반',
+        'Icon': '...',
+        'BundleCount': 10,
+        'RecentPrice': 4
     }
     
-    trade = Trade.from_dict(data)
+    item = TradeMarketItem.from_dict(data)
     
-    assert trade.date == '2024-01-07T10:30:00'
-    assert trade.price == 1000
-    assert trade.quantity == 5
+    assert item.name == '파괴강석'
+    assert item.recent_price == 4
 
 
-def test_market_item_to_dict():
-    """MarketItem은 딕셔너리로 변환되어야 합니다."""
-    item = MarketItem(
-        id=123,
-        name='테스트',
-        grade='일반',
-        icon='https://...',
-        bundle_count=10,
-        trade_remain_count=5,
-        y_day_avg_price=100.0,
-        recent_price=110.0,
-        current_min_price=95.0
-    )
+def test_market_item_stats_from_dict():
+    """MarketItemStats는 중첩된 통계 정보를 포함해야 합니다."""
+    data = {
+        'Name': '파괴강석',
+        'BundleCount': 10,
+        'Stats': [
+            {
+                'Date': '2024-01-08',
+                'AvgPrice': 4.5,
+                'TradeCount': 1000
+            }
+        ]
+    }
     
-    data = item.to_dict()
+    stats = MarketItemStats.from_dict(data)
     
-    assert data['id'] == 123
-    assert data['name'] == '테스트'
-    assert data['y_day_avg_price'] == 100.0
+    assert stats.name == '파괴강석'
+    assert len(stats.stats) == 1
+    assert stats.stats[0].avg_price == 4.5
+
+
+def test_trade_market_from_dict():
+    """TradeMarket 검색 결과는 API 응답에서 변환되어야 합니다."""
+    data = {
+        'PageNo': 1,
+        'PageSize': 10,
+        'TotalCount': 1,
+        'Items': [
+            {
+                'Id': 1, 'Name': '아이템', 'Grade': '일반', 'Icon': '...', 'BundleCount': 1
+            }
+        ]
+    }
+    
+    result = TradeMarket.from_dict(data)
+    
+    assert result.total_count == 1
+    assert len(result.items) == 1
+    assert result.items[0].name == '아이템'
+

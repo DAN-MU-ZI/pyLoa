@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
 from pyloa.endpoints.auctions import AuctionsEndpoint
-from pyloa.models.auction import AuctionItem, AuctionOption
+from pyloa.models.auction import AuctionItem, ItemOption, Auction
 
 
 def test_auctions_endpoint_initialization():

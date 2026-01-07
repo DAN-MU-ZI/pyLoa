@@ -24,8 +24,8 @@ from .armory import (
     ArkGridEffect,
     ArmoryTotal
 )
-from .auction import AuctionItem, AuctionOption, AuctionInfo, AuctionSearchResult
-from .market import MarketItem, Trade
+from .auction import AuctionItem, ItemOption, AuctionInfo, Auction
+from .market import MarketItem, TradeMarketItem, Market, MarketItemStats, MarketStatsInfo, TradeMarket
 from .game_content import ContentsCalendar, LevelRewardItems, RewardItem
 
 __all__ = [
@@ -51,11 +51,15 @@ __all__ = [
     "ArkGridEffect",
     "ArmoryTotal",
     "AuctionItem",
-    "AuctionOption",
+    "ItemOption",
     "AuctionInfo",
-    "AuctionSearchResult",
+    "Auction",
     "MarketItem",
-    "Trade",
+    "TradeMarketItem",
+    "Market",
+    "TradeMarket",
+    "MarketItemStats",
+    "MarketStatsInfo",
     "ContentsCalendar",
     "LevelRewardItems",
     "RewardItem",

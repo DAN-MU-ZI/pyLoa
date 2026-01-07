@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
 from pyloa.endpoints.markets import MarketsEndpoint
-from pyloa.models.market import MarketItem, Trade
+from pyloa.models.market import MarketItem, TradeMarketItem, Market, TradeMarket, MarketItemStats
 
 
 def test_markets_endpoint_initialization():
@@ -31,20 +31,20 @@ def test_get_item():
     """get_item은 GET /items/{id}로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
-    endpoint._request = Mock(return_value={
-        'Id': 123,
-        'Name': '테스트',
-        'Grade': '일반',
-        'Icon': 'https://...',
+    endpoint._request = Mock(return_value=[{
+        'Name': '파괴강석',
         'BundleCount': 10,
-        'TradeRemainCount': 5
-    })
+        'Stats': [
+            {'Date': '2024-01-08', 'AvgPrice': 4.5, 'TradeCount': 1000}
+        ]
+    }])
     
-    item = endpoint.get_item(123)
+    items = endpoint.get_item(123)
     
     endpoint._request.assert_called_once_with('GET', '/items/123')
-    assert isinstance(item, MarketItem)
-    assert item.id == 123
+    assert len(items) == 1
+    assert isinstance(items[0], MarketItemStats)
+    assert items[0].name == '파괴강석'
 
 
 def test_search_items():
@@ -67,32 +67,35 @@ def test_search_items():
     
     result = endpoint.search_items(ItemName="테스트", PageNo=1)
     
-    # Should call POST with json body
     endpoint._request.assert_called_once_with(
         'POST',
         '/items',
         json={'ItemName': '테스트', 'PageNo': 1}
     )
-    assert result['TotalCount'] == 1
+    assert result.total_count == 1
+    assert isinstance(result.items[0], MarketItem)
 
 
 def test_get_trades():
     """get_trades는 POST /trades로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
-    endpoint._request = Mock(return_value=[
-        {'Date': '2024-01-07T10:00:00', 'Price': 100, 'Quantity': 5},
-        {'Date': '2024-01-07T11:00:00', 'Price': 105, 'Quantity': 3}
-    ])
+    endpoint._request = Mock(return_value={
+        'PageNo': 1,
+        'PageSize': 10,
+        'TotalCount': 1,
+        'Items': [
+            {'Id': 1, 'Name': '테스트', 'Grade': '일반', 'Icon': '...', 'BundleCount': 1, 'RecentPrice': 100}
+        ]
+    })
     
-    trades = endpoint.get_trades(ItemName="테스트")
+    result = endpoint.get_trades(ItemName="테스트")
     
-    #Should call POST with json body
     endpoint._request.assert_called_once_with(
         'POST',
         '/trades',
         json={'ItemName': '테스트'}
     )
-    assert len(trades) == 2
-    assert isinstance(trades[0], Trade)
-    assert trades[0].price == 100
+    assert result.total_count == 1
+    assert isinstance(result.items[0], TradeMarketItem)
+    assert result.items[0].recent_price == 100

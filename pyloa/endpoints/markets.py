@@ -1,7 +1,7 @@
 """거래소 관련 엔드포인트."""
 from typing import List, Dict, Any
 from pyloa.endpoints.base import BaseEndpoint
-from pyloa.models.market import MarketItem, Trade
+from pyloa.models.market import MarketItem, Market, TradeMarket, MarketItemStats
 
 
 class MarketsEndpoint(BaseEndpoint):
@@ -24,19 +24,22 @@ class MarketsEndpoint(BaseEndpoint):
         """
         return self._request('GET', '/options')
     
-    def get_item(self, item_id: int) -> MarketItem:
+    def get_item(self, item_id: int) -> List[MarketItemStats]:
         """특정 아이템의 거래소 정보 조회.
         
         Args:
             item_id: 아이템 ID
             
         Returns:
-            MarketItem object
+            List of MarketItemStats objects
         """
         data = self._request('GET', f'/items/{item_id}')
-        return MarketItem.from_dict(data)
+        if not isinstance(data, list):
+            return []
+        return [MarketItemStats.from_dict(item) for item in data]
+
     
-    def search_items(self, **kwargs) -> Dict[str, Any]:
+    def search_items(self, **kwargs) -> Market:
         """거래소 아이템 검색.
         
         Args:
@@ -45,11 +48,12 @@ class MarketsEndpoint(BaseEndpoint):
                 ItemGrade, ItemName, PageNo, SortCondition
                 
         Returns:
-            Dict with PageNo, PageSize, TotalCount, Items
+            Market object
         """
-        return self._request('POST', '/items', json=kwargs)
+        data = self._request('POST', '/items', json=kwargs)
+        return Market.from_dict(data)
     
-    def get_trades(self, **kwargs) -> List[Trade]:
+    def get_trades(self, **kwargs) -> TradeMarket:
         """최근 거래 내역 조회.
         
         Args:
@@ -58,7 +62,7 @@ class MarketsEndpoint(BaseEndpoint):
                 ItemGrade, ItemName, PageNo
                 
         Returns:
-            List of Trade objects
+            TradeMarket object
         """
         data = self._request('POST', '/trades', json=kwargs)
-        return [Trade.from_dict(item) for item in data]
+        return TradeMarket.from_dict(data)

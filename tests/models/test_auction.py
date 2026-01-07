@@ -1,6 +1,6 @@
 """Auction 모델 테스트."""
 import pytest
-from pyloa.models.auction import AuctionItem, AuctionOption, AuctionInfo
+from pyloa.models.auction import AuctionItem, ItemOption, AuctionInfo, Auction
 
 
 def test_auction_item_from_dict():
@@ -20,18 +20,14 @@ def test_auction_item_from_dict():
             'BidCount': 1,
             'BidStartPrice': 1000,
             'IsCompetitive': True,
-            'TradeAllowCount': 2
+            'TradeAllowCount': 2,
+            'UpgradeLevel': 0
         },
         'Options': [
             {
                 'Type': 'STAT',
                 'OptionName': '특화',
-                'FirstOption': None,
-                'SecondOption': None,
-                'MinValue': None,
-                'MaxValue': None,
-                'Value': 600,
-                'ClassName': None
+                'Value': 600
             }
         ]
     }
@@ -47,10 +43,11 @@ def test_auction_item_from_dict():
     assert isinstance(item.auction_info, AuctionInfo)
     assert item.auction_info.buy_price == 1500
     assert item.auction_info.is_competitive is True
+    assert item.auction_info.upgrade_level == 0
     
     # Nested Options
     assert len(item.options) == 1
-    assert isinstance(item.options[0], AuctionOption)
+    assert isinstance(item.options[0], ItemOption)
     assert item.options[0].type == 'STAT'
     assert item.options[0].value == 600
 
@@ -64,7 +61,7 @@ def test_auction_info_optional_fields():
         'BidStartPrice': 1000,
         'IsCompetitive': False,
         'TradeAllowCount': 3
-        # BuyPrice, BidPrice missing
+        # BuyPrice, BidPrice, UpgradeLevel missing
     }
     
     info = AuctionInfo.from_dict(data)
@@ -72,6 +69,7 @@ def test_auction_info_optional_fields():
     assert info.start_price == 1000
     assert info.buy_price is None
     assert info.bid_price is None
+    assert info.upgrade_level is None
 
 
 def test_auction_item_to_dict():
@@ -92,7 +90,7 @@ def test_auction_item_to_dict():
             trade_allow_count=1
         ),
         options=[
-            AuctionOption(
+            ItemOption(
                 type='STAT',
                 option_name='치명',
                 value=500
@@ -104,14 +102,11 @@ def test_auction_item_to_dict():
     
     assert data['name'] == '테스트'
     assert data['auction_info']['start_price'] == 100
-    assert data['auction_info']['start_price'] == 100
     assert data['options'][0]['option_name'] == '치명'
 
 
-def test_auction_search_result_from_dict():
-    """AuctionSearchResult는 API 응답에서 변환되어야 합니다."""
-    from pyloa.models.auction import AuctionSearchResult
-    
+def test_auction_from_dict():
+    """Auction은 API 응답에서 변환되어야 합니다."""
     data = {
         'PageNo': 1,
         'PageSize': 10,
@@ -119,7 +114,8 @@ def test_auction_search_result_from_dict():
         'Items': []
     }
     
-    result = AuctionSearchResult.from_dict(data)
+    result = Auction.from_dict(data)
     
     assert result.total_count == 5
     assert result.items == []
+

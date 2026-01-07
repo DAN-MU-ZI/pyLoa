@@ -1,7 +1,7 @@
 """경매장 관련 엔드포인트."""
 from typing import Dict, Any
 from pyloa.endpoints.base import BaseEndpoint
-from pyloa.models.auction import AuctionSearchResult
+from pyloa.models.auction import Auction
 
 
 class AuctionsEndpoint(BaseEndpoint):
@@ -24,7 +24,7 @@ class AuctionsEndpoint(BaseEndpoint):
         """
         return self._request('GET', '/options')
     
-    def get_items(self, **kwargs) -> AuctionSearchResult:
+    def get_items(self, **kwargs) -> Auction:
         """경매장 아이템 검색.
         
         Args:
@@ -35,7 +35,8 @@ class AuctionsEndpoint(BaseEndpoint):
                 PageNo, SortCondition
                 
         Returns:
-            AuctionSearchResult object
+            Auction object
         """
         data = self._request('POST', '/items', json=kwargs)
-        return AuctionSearchResult.from_dict(data)
+        return Auction.from_dict(data)
+
