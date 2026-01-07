@@ -69,3 +69,11 @@ class LostArkAPI:
             from pyloa.endpoints.game_contents import GameContentsEndpoint
             self._game_contents = GameContentsEndpoint(self)
         return self._game_contents
+    
+    @property
+    def armories(self):
+        """Access Armories endpoint."""
+        if not hasattr(self, '_armories'):
+            from pyloa.endpoints.armories import ArmoriesEndpoint
+            self._armories = ArmoriesEndpoint(self)
+        return self._armories
