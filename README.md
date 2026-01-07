@@ -45,16 +45,18 @@ siblings = api.characters.get_siblings("캐릭터명")
 for char in siblings:
     print(f"{char.character_name} ({char.server_name}): {char.item_avg_level}")
 
-# 4. 캐릭터 장비 조회
-equipment = api.armories.get_equipment("캐릭터명")
-for item in equipment:
-    print(f"{item.name} ({item.grade}) - 품질: {item.quality}")
+# 4. 캐릭터 프로필 상세 조회
+profile = api.armories.get_profile("캐릭터명")
+print(f"{profile.character_name} 레벨: {profile.character_level}")
+if profile.stats:
+    for stat in profile.stats:
+        print(f"{stat.type}: {stat.value}")
 
 # 5. 거래소 아이템 검색
-result = api.markets.search_items(ItemName="파괴강석")
-print(f"총 {result['TotalCount']}개 검색됨")
-for item in result['Items']:
-    print(f"{item['Name']}: {item['CurrentMinPrice']}골드")
+result = api.markets.search_items(ItemName="파괴강석", CategoryCode=50000)
+print(f"총 {result.total_count}개 검색됨")
+for item in result.items:
+    print(f"{item.name}: {item.current_min_price}골드")
 ```
 
 ## API 문서
@@ -82,7 +84,7 @@ siblings = api.characters.get_siblings("캐릭터명")
 
 ```python
 # 캐릭터 종합 정보 조회 (필터 사용)
-profile = api.armories.get_total_info(
+total = api.armories.get_total_info(
     "캐릭터명",
     filters=["profiles", "equipment", "gems"]
 )
@@ -112,20 +114,20 @@ gems = api.armories.get_gems("캐릭터명")
 #### Markets (거래소)
 
 ```python
-# 거래소 검색 옵션 조회
+# 거래소 검색 옵션 조회 (Dict 리턴)
 options = api.markets.get_options()
 
-# 특정 아이템 정보 조회
+# 특정 아이템 정보 조회 (MarketItem)
 item = api.markets.get_item(item_id=66110221)
 
-# 아이템 검색
+# 아이템 검색 (Market)
 result = api.markets.search_items(
     CategoryCode=50000,
     ItemName="파괴강석",
     PageNo=1
 )
 
-# 최근 거래 내역
+# 최근 거래 내역 (List[TradeMarketItem])
 trades = api.markets.get_trades(ItemName="파괴강석")
 ```
 
@@ -135,8 +137,8 @@ trades = api.markets.get_trades(ItemName="파괴강석")
 # 경매장 검색 옵션 조회
 options = api.auctions.get_options()
 
-# 경매장 아이템 검색
-auctions = api.auctions.get_items(
+# 경매장 아이템 검색 (Auction)
+result = api.auctions.get_items(
     CategoryCode=200000,
     ItemGrade="유물",
     ItemTier=3,
@@ -147,9 +149,10 @@ auctions = api.auctions.get_items(
 #### Game Contents (게임 컨텐츠)
 
 ```python
-# 주간 캘린더 정보 (도전 가디언, 카오스 게이트 등)
+# 주간 캘린더 정보 (ContentsCalendar)
 calendar = api.game_contents.get_calendar()
 ```
+
 
 ### 고급 사용법
 
