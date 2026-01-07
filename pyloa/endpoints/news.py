@@ -24,11 +24,11 @@ class NewsEndpoint(BaseEndpoint):
         """공지사항 목록 조회.
         
         Args:
-            searchText: 제목 검색 키워드 (optional)
-            type: 공지 타입 - 공지/점검/상점/이벤트 (optional)
+            searchText: 제목 검색 키워드 (선택 사항)
+            type: 공지 타입 - 공지/점검/상점/이벤트 (선택 사항)
             
         Returns:
-            List of NoticeList objects
+            List[NoticeList]: 공지사항 정보 객체 리스트
         """
         params = {}
         if searchText is not None:
@@ -43,7 +43,7 @@ class NewsEndpoint(BaseEndpoint):
         """진행 중인 이벤트 목록 조회.
         
         Returns:
-            List of Event objects
+            List[Event]: 이벤트 정보 객체 리스트
         """
         data = self._request('GET', '/events')
         return [Event.from_dict(item) for item in data]
@@ -52,8 +52,9 @@ class NewsEndpoint(BaseEndpoint):
         """알람 목록 조회.
         
         Returns:
-            OpenAPIUserAlarm object
+            OpenAPIUserAlarm: 유저 알람 정보 객체
         """
+
         data = self._request('GET', '/alarms')
         return OpenAPIUserAlarm.from_dict(data)
 

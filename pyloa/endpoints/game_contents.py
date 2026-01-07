@@ -20,8 +20,9 @@ class GameContentsEndpoint(BaseEndpoint):
         """주간 캘린더 조회 (도전 가디언 등).
         
         Returns:
-            List of ContentsCalendar objects
+            List[ContentsCalendar]: 주간 캘린더 정보 객체 리스트
         """
+
         data = self._request('GET', '/calendar')
         return [ContentsCalendar.from_dict(item) for item in data]
 

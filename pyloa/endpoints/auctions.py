@@ -20,7 +20,7 @@ class AuctionsEndpoint(BaseEndpoint):
         """경매장 검색 옵션 조회.
         
         Returns:
-            Dict with Categories, ItemGrades, etc.
+            Dict: 카테고리, 아이템 등급 등의 정보를 포함하는 딕셔너리
         """
         return self._request('GET', '/options')
     
@@ -35,8 +35,9 @@ class AuctionsEndpoint(BaseEndpoint):
                 PageNo, SortCondition
                 
         Returns:
-            Auction object
+            Auction: 경매장 검색 결과 객체
         """
+
         data = self._request('POST', '/items', json=kwargs)
         return Auction.from_dict(data)
 

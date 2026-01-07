@@ -23,8 +23,9 @@ class CharactersEndpoint(BaseEndpoint):
             character_name: 조회할 캐릭터 이름
             
         Returns:
-            List of CharacterInfo objects
+            List[CharacterInfo]: 캐릭터 정보 객체 리스트
         """
+
         data = self._request('GET', f'/{character_name}/siblings')
         return [CharacterInfo.from_dict(item) for item in data]
 

@@ -72,7 +72,7 @@ class MarketItemStats(BaseModel):
     bundle_count: int
     stats: List[MarketStatsInfo] = field(default_factory=list)
     trade_remain_count: Optional[int] = None
-    tool_tip: Optional[str] = None
+    tooltip: Optional[str] = None
     
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'MarketItemStats':
@@ -86,8 +86,9 @@ class MarketItemStats(BaseModel):
             bundle_count=data.get('BundleCount', 0),
             trade_remain_count=data.get('TradeRemainCount'),
             stats=stats,
-            tool_tip=data.get('ToolTip')
+            tooltip=data.get('ToolTip')
         )
+
 
 
 @dataclass

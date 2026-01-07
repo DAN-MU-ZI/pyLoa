@@ -457,7 +457,19 @@ class ArkPassiveEffectSkill(BaseModel):
     name: str
     description: str
     icon: str
-    tool_tip: str
+    tooltip: str
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'ArkPassiveEffectSkill':
+        """딕셔너리에서 인스턴스를 생성합니다."""
+        return cls(
+            name=data.get('Name', ''),
+            description=data.get('Description', ''),
+            icon=data.get('Icon', ''),
+            tooltip=data.get('ToolTip', '') or data.get('Tooltip', '')
+        )
+
+
 
 
 @dataclass

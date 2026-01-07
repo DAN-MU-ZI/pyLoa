@@ -20,7 +20,7 @@ class MarketsEndpoint(BaseEndpoint):
         """거래소 검색 옵션 조회.
         
         Returns:
-            Dict with Categories and ItemGrades
+            Dict: 카테고리 및 아이템 등급 정보를 포함하는 딕셔너리
         """
         return self._request('GET', '/options')
     
@@ -31,7 +31,7 @@ class MarketsEndpoint(BaseEndpoint):
             item_id: 아이템 ID
             
         Returns:
-            List of MarketItemStats objects
+            List[MarketItemStats]: 아이템 상세 통계 객체 리스트
         """
         data = self._request('GET', f'/items/{item_id}')
         if not isinstance(data, list):
@@ -48,7 +48,7 @@ class MarketsEndpoint(BaseEndpoint):
                 ItemGrade, ItemName, PageNo, SortCondition
                 
         Returns:
-            Market object
+            Market: 거래소 검색 결과 객체
         """
         data = self._request('POST', '/items', json=kwargs)
         return Market.from_dict(data)
@@ -62,7 +62,8 @@ class MarketsEndpoint(BaseEndpoint):
                 ItemGrade, ItemName, PageNo
                 
         Returns:
-            TradeMarket object
+            TradeMarket: 최근 거래 내역 결과 객체
         """
+
         data = self._request('POST', '/trades', json=kwargs)
         return TradeMarket.from_dict(data)
