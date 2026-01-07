@@ -53,3 +53,11 @@ class LostArkAPI:
             from pyloa.endpoints.markets import MarketsEndpoint
             self._markets = MarketsEndpoint(self)
         return self._markets
+    
+    @property
+    def auctions(self):
+        """Access Auctions endpoint."""
+        if not hasattr(self, '_auctions'):
+            from pyloa.endpoints.auctions import AuctionsEndpoint
+            self._auctions = AuctionsEndpoint(self)
+        return self._auctions

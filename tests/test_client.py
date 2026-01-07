@@ -78,3 +78,14 @@ def test_client_provides_markets_endpoint():
     assert isinstance(api.markets, MarketsEndpoint)
     # Should return same instance (lazy initialization)
     assert api.markets is api.markets
+
+
+def test_client_provides_auctions_endpoint():
+    """Client should provide access to AuctionsEndpoint."""
+    from pyloa.endpoints.auctions import AuctionsEndpoint
+    
+    api = LostArkAPI(api_key="test_jwt_token")
+    
+    assert isinstance(api.auctions, AuctionsEndpoint)
+    # Should return same instance (lazy initialization)
+    assert api.auctions is api.auctions
