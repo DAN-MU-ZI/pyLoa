@@ -1,4 +1,5 @@
 """모든 API 엔드포인트의 기본 클래스."""
+import time
 from typing import Dict, TYPE_CHECKING
 from requests import HTTPError
 from pyloa.exceptions import APIError, RateLimitError, AuthenticationError
@@ -35,8 +36,10 @@ class BaseEndpoint:
             RateLimitError: 429 Too Many Requests 발생 시
             APIError: 기타 HTTP 오류 발생 시
         """
-        # 속도 제한 초과 시 대기
-        self.client.rate_limiter.wait_if_needed()
+        # 속도 제한 초과 시 대기 (RateLimiter는 상태만 제공, 제어는 여기서)
+        wait_duration = self.client.rate_limiter.get_wait_duration()
+        if wait_duration > 0:
+            time.sleep(wait_duration)
         
         # 전체 URL 생성
         url = f"{self.client.base_url}{self.base_path}{path}"
