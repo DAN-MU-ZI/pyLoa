@@ -1,6 +1,10 @@
 """Tests for Armory models."""
 import pytest
-from pyloa.models.armory import ArmoryProfile, ArmoryEquipment
+from pyloa.models.armory import (
+    ArmoryProfile, ArmoryEquipment, ArmoryAvatar, ArmorySkill,
+    ArmoryEngraving, ArmoryCard, ArmoryGem, ColosseumInfo,
+    Collectible, ArkPassive
+)
 
 
 def test_armory_profile_from_dict():
@@ -49,3 +53,93 @@ def test_armory_equipment_from_dict():
     assert eq.name == '고대 무기'
     assert eq.grade == '고대'
     assert eq.tooltip == '{}'
+
+
+def test_armory_avatar_from_dict():
+    """ArmoryAvatar should convert from API response."""
+    data = {
+        'Type': '무기 아바타',
+        'Name': '아바타',
+        'Icon': 'icon',
+        'Grade': '전설',
+        'IsSet': False,
+        'IsInner': False,
+        'Tooltip': '{}'
+    }
+    
+    avatar = ArmoryAvatar.from_dict(data)
+    assert avatar.type == '무기 아바타'
+    assert avatar.is_set is False
+
+
+def test_armory_skill_from_dict():
+    """ArmorySkill should convert from API response."""
+    data = {
+        'Name': '스킬',
+        'Icon': 'icon',
+        'Level': 12,
+        'Type': '지점',
+        'IsAwake': False,
+        'Tooltip': '{}'
+    }
+    
+    skill = ArmorySkill.from_dict(data)
+    assert skill.level == 12
+    assert skill.is_awake is False
+
+
+def test_armory_engraving_from_dict():
+    """ArmoryEngraving should convert from API response."""
+    data = {
+        'Engravings': [{'Name': '원한'}],
+        'Effects': [{'Name': '원한 3'}]
+    }
+    
+    engraving = ArmoryEngraving.from_dict(data)
+    assert len(engraving.engravings) == 1
+    assert engraving.engravings[0]['Name'] == '원한'
+
+
+def test_armory_card_from_dict():
+    """ArmoryCard should convert from API response."""
+    data = {'Cards': [], 'Effects': []}
+    card = ArmoryCard.from_dict(data)
+    assert isinstance(card.cards, list)
+
+
+def test_armory_gem_from_dict():
+    """ArmoryGem should convert from API response."""
+    data = {'Gems': [], 'Effects': []}
+    gem = ArmoryGem.from_dict(data)
+    assert isinstance(gem.gems, list)
+
+
+def test_colosseum_info_from_dict():
+    """ColosseumInfo should convert from API response."""
+    data = {'Rank': 1, 'PreRank': 1, 'Exp': 100, 'Colosseums': []}
+    info = ColosseumInfo.from_dict(data)
+    assert info.rank == 1
+
+
+def test_collectible_from_dict():
+    """Collectible should convert from API response."""
+    data = {
+        'Type': '모코코',
+        'Icon': 'icon',
+        'Point': 10,
+        'MaxPoint': 100,
+        'CollectiblePoints': []
+    }
+    col = Collectible.from_dict(data)
+    assert col.type == '모코코'
+
+
+def test_ark_passive_from_dict():
+    """ArkPassive should convert from API response."""
+    data = {
+        'IsOpen': True,
+        'Points': [],
+        'Effects': []
+    }
+    passive = ArkPassive.from_dict(data)
+    assert passive.is_open is True

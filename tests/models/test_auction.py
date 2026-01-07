@@ -104,4 +104,22 @@ def test_auction_item_to_dict():
     
     assert data['name'] == '테스트'
     assert data['auction_info']['start_price'] == 100
+    assert data['auction_info']['start_price'] == 100
     assert data['options'][0]['option_name'] == '치명'
+
+
+def test_auction_search_result_from_dict():
+    """AuctionSearchResult should convert from API response."""
+    from pyloa.models.auction import AuctionSearchResult
+    
+    data = {
+        'PageNo': 1,
+        'PageSize': 10,
+        'TotalCount': 5,
+        'Items': []
+    }
+    
+    result = AuctionSearchResult.from_dict(data)
+    
+    assert result.total_count == 5
+    assert result.items == []
