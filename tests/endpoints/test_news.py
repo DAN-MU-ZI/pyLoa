@@ -121,3 +121,34 @@ def test_get_events_missing_reward_date():
     events = endpoint.get_events()
     
     assert events[0].reward_date is None
+
+
+def test_get_alarms():
+    """get_alarms는 올바른 경로로 _request를 호출해야 합니다."""
+    client = Mock(spec=LostArkAPI)
+    endpoint = NewsEndpoint(client)
+    
+    # Mock _request to return sample data
+    endpoint._request = Mock(return_value={
+        'RequirePolling': True,
+        'Alarms': [
+            {
+                'AlarmType': 'All',
+                'Contents': 'Test Alarm',
+                'StartDate': '2024-01-01',
+                'EndDate': '2024-01-02'
+            }
+        ]
+    })
+    
+    from pyloa.models.news import UserAlarm
+    alarm = endpoint.get_alarms()
+    
+    # Should call _request with GET /alarms
+    endpoint._request.assert_called_once_with('GET', '/alarms')
+    
+    # Should return UserAlarm object
+    assert isinstance(alarm, UserAlarm)
+    assert alarm.require_polling is True
+    assert len(alarm.alarms) == 1
+    assert alarm.alarms[0].contents == 'Test Alarm'

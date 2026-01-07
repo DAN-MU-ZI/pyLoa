@@ -173,3 +173,36 @@ def test_get_ark_passive():
     endpoint._request.assert_called_once_with('GET', '/테스트캐릭/arkpassive')
     assert passive is not None
     assert passive.is_open is True
+
+
+def test_get_ark_grid():
+    """get_ark_grid는 GET /arkgrid를 호출해야 합니다."""
+    client = Mock(spec=LostArkAPI)
+    endpoint = ArmoriesEndpoint(client)
+    endpoint._request = Mock(return_value={
+        'Slots': [{'Index': 1, 'Icon': 'url', 'Name': 'Slot', 'Point': 1, 'Grade': 'G', 'Tooltip': 'T', 'Gems': []}],
+        'Effects': []
+    })
+    
+    from pyloa.models.armory import ArkGrid
+    grid = endpoint.get_ark_grid("테스트캐릭")
+    
+    endpoint._request.assert_called_once_with('GET', '/테스트캐릭/arkgrid')
+    assert isinstance(grid, ArkGrid)
+    assert len(grid.slots) == 1
+
+
+def test_get_total_info():
+    """get_total_info는 필터와 함께 GET /를 호출해야 합니다."""
+    client = Mock(spec=LostArkAPI)
+    endpoint = ArmoriesEndpoint(client)
+    endpoint._request = Mock(return_value={
+        'ArmoryProfile': {'CharacterName': 'Name', 'CharacterImage': '', 'ExpeditionLevel': 0, 'PvpGradeName': '', 'TownLevel': 0, 'TownName': '', 'Title': '', 'GuildMemberGrade': '', 'GuildName': '', 'Stats': [], 'Tendencies': [], 'ServerName': '', 'CharacterLevel': 0, 'CharacterClassName': '', 'ItemAvgLevel': '', 'ItemMaxLevel': ''}
+    })
+    
+    from pyloa.models.armory import ArmoryTotal
+    total = endpoint.get_total_info("테스트캐릭", filters=['profiles'])
+    
+    endpoint._request.assert_called_once_with('GET', '/테스트캐릭', params={'filters': 'profiles'})
+    assert isinstance(total, ArmoryTotal)
+    assert total.armory_profile.character_name == 'Name'

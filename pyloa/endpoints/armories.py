@@ -85,3 +85,30 @@ class ArmoriesEndpoint(BaseEndpoint):
         if not data:
             return None
         return ArkPassive.from_dict(data)
+
+    def get_ark_grid(self, character_name: str) -> Optional['ArkGrid']:
+        """아크 그리드 정보 조회."""
+        from pyloa.models.armory import ArkGrid
+        data = self._request('GET', f'/{character_name}/arkgrid')
+        if not data:
+            return None
+        return ArkGrid.from_dict(data)
+
+    def get_total_info(self, character_name: str, filters: Optional[List[str]] = None) -> Optional['ArmoryTotal']:
+        """Armory 종합 정보 조회.
+        
+        Args:
+            character_name: 조회할 캐릭터 이름
+            filters: 조회할 항목 리스트 (예: ['profiles', 'equipment'])
+                     None이면 전체 조회
+        """
+        from pyloa.models.armory import ArmoryTotal
+        params = {}
+        if filters:
+            # 로스트아크 API는 필터를 쉼표로 구분된 문자열로 받습니다.
+            params['filters'] = ','.join(filters)
+        
+        data = self._request('GET', f'/{character_name}', params=params)
+        if not data:
+            return None
+        return ArmoryTotal.from_dict(data)

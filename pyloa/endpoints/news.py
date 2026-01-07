@@ -47,3 +47,13 @@ class NewsEndpoint(BaseEndpoint):
         """
         data = self._request('GET', '/events')
         return [Event.from_dict(item) for item in data]
+    
+    def get_alarms(self) -> 'UserAlarm':
+        """알람 목록 조회.
+        
+        Returns:
+            UserAlarm object
+        """
+        from pyloa.models.news import UserAlarm
+        data = self._request('GET', '/alarms')
+        return UserAlarm.from_dict(data)
