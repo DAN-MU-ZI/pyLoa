@@ -31,13 +31,13 @@ classDiagram
     }
 
     class NewsEndpoint {
-        +get_notices(searchText, type) List~Notice~
+        +get_notices(...) List~NoticeList~
         +get_events() List~Event~
-        +get_alarms() UserAlarm
+        +get_alarms() OpenAPIUserAlarm
     }
 
     class CharactersEndpoint {
-        +get_siblings(character_name: str) List~Character~
+        +get_siblings(character_name: str) List~CharacterInfo~
     }
 
     class ArmoriesEndpoint {
@@ -48,22 +48,23 @@ classDiagram
         +get_engravings(character_name: str) ArmoryEngraving
         +get_cards(character_name: str) ArmoryCard
         +get_gems(character_name: str) ArmoryGem
+        +get_total_info(...) ArmoryTotal
     }
 
     class MarketsEndpoint {
         +get_options() Dict
-        +get_item(item_id: int) MarketItem
-        +search_items(**kwargs) Dict
-        +get_trades(**kwargs) List~Trade~
+        +get_item(item_id: int) List~MarketItemStats~
+        +search_items(**kwargs) Market
+        +get_trades(**kwargs) TradeMarket
     }
 
     class AuctionsEndpoint {
         +get_options() Dict
-        +get_items(**kwargs) AuctionSearchResult
+        +get_items(**kwargs) Auction
     }
 
     class GameContentsEndpoint {
-        +get_calendar() List~GameContent~
+        +get_calendar() List~ContentsCalendar~
     }
 
     class BaseModel {
@@ -88,6 +89,11 @@ classDiagram
     
     BaseEndpoint --> LostArkAPI : uses
 
-    BaseModel <|-- Character : inherits
-    BaseModel <|-- Notice : inherits
+    BaseModel <|-- CharacterInfo : inherits
+    BaseModel <|-- NoticeList : inherits
     BaseModel <|-- Event : inherits
+    BaseModel <|-- ContentsCalendar : inherits
+    BaseModel <|-- Auction : inherits
+    BaseModel <|-- Market : inherits
+    BaseModel <|-- TradeMarket : inherits
+

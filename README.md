@@ -4,10 +4,12 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen.svg)]()
 
 ## 개요
 
-`pyLoa`는 [로스트아크 공식 OpenAPI](https://developer-lostark.game.onstove.com/)를 위한 직관적이고 사용하기 쉬운 Python 래퍼 라이브러리입니다. PyGithub, Tweepy 등 성공적인 API 래퍼들의 설계 패턴을 참고하여 개발되었습니다.
+`pyLoa`는 [로스트아크 공식 OpenAPI](https://developer-lostark.game.onstove.com/)를 위한 직관적이고 사용하기 쉬운 Python 래퍼 라이브러리입니다.
 
 ### 주요 기능
 
