@@ -1,22 +1,22 @@
-"""Rate limiter for API requests."""
+"""API 요청 속도 제한기."""
 from datetime import datetime
 from typing import Dict, Optional
 
 
 class RateLimiter:
-    """Manages API rate limiting based on response headers."""
+    """응답 헤더를 기반으로 API 속도 제한을 관리합니다."""
     
     def __init__(self):
-        """Initialize rate limiter with default values."""
-        self.limit: int = 100  # Default: 100 requests per minute
+        """속도 제한기를 기본값으로 초기화합니다."""
+        self.limit: int = 100  # 기본값: 분당 100회 요청
         self.remaining: int = 100
         self.reset_time: Optional[datetime] = None
     
     def get_wait_duration(self) -> float:
-        """Return the number of seconds to wait before the next request.
+        """다음 요청 전 대기해야 할 시간을 반환합니다.
         
         Returns:
-            float: Seconds to wait. 0.0 if no wait is needed.
+            float: 대기할 시간(초). 대기가 필요 없으면 0.0 반환.
         """
         if self.remaining <= 0 and self.reset_time:
             now = datetime.now()
@@ -25,7 +25,7 @@ class RateLimiter:
         return 0.0
     
     def update(self, headers: Dict[str, str]) -> None:
-        """Update rate limit info from response headers."""
+        """응답 헤더에서 속도 제한 정보를 업데이트합니다."""
         if 'X-RateLimit-Limit' in headers:
             self.limit = int(headers['X-RateLimit-Limit'])
         if 'X-RateLimit-Remaining' in headers:

@@ -1,4 +1,4 @@
-"""Markets endpoint."""
+"""거래소 관련 엔드포인트."""
 from typing import List, Dict, Any
 from pyloa.endpoints.base import BaseEndpoint
 from pyloa.models.market import MarketItem, Trade
@@ -8,10 +8,10 @@ class MarketsEndpoint(BaseEndpoint):
     """거래소 endpoint."""
     
     def __init__(self, client):
-        """Initialize MarketsEndpoint.
+        """MarketsEndpoint를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         super().__init__(client)
         self.base_path = "/markets"

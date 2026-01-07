@@ -1,4 +1,4 @@
-"""News endpoint."""
+"""뉴스/공지 관련 엔드포인트."""
 from typing import List, Optional
 from pyloa.endpoints.base import BaseEndpoint
 from pyloa.models.news import Notice, Event
@@ -8,10 +8,10 @@ class NewsEndpoint(BaseEndpoint):
     """뉴스/공지 endpoint."""
     
     def __init__(self, client):
-        """Initialize NewsEndpoint.
+        """NewsEndpoint를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         super().__init__(client)
         self.base_path = "/news"

@@ -1,4 +1,4 @@
-"""Tests for GameContentsEndpoint."""
+"""GameContentsEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
@@ -7,7 +7,7 @@ from pyloa.models.game_content import GameContent
 
 
 def test_game_contents_endpoint_initialization():
-    """Endpoint should have correct base_path."""
+    """Endpoint는 올바른 base_path를 가져야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = GameContentsEndpoint(client)
     
@@ -16,7 +16,7 @@ def test_game_contents_endpoint_initialization():
 
 
 def test_get_calendar():
-    """get_calendar should call GET /calendar."""
+    """get_calendar는 GET /calendar를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = GameContentsEndpoint(client)
     endpoint._request = Mock(return_value=[{

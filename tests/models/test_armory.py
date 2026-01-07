@@ -1,4 +1,4 @@
-"""Tests for Armory models."""
+"""Armory 모델 테스트."""
 import pytest
 from pyloa.models.armory import (
     ArmoryProfile, ArmoryEquipment, ArmoryAvatar, ArmorySkill,
@@ -8,7 +8,7 @@ from pyloa.models.armory import (
 
 
 def test_armory_profile_from_dict():
-    """ArmoryProfile should convert from API response."""
+    """ArmoryProfile은 API 응답에서 변환되어야 합니다."""
     data = {
         'CharacterImage': 'https://...',
         'ExpeditionLevel': 300,
@@ -38,7 +38,7 @@ def test_armory_profile_from_dict():
 
 
 def test_armory_equipment_from_dict():
-    """ArmoryEquipment should convert from API response."""
+    """ArmoryEquipment는 API 응답에서 변환되어야 합니다."""
     data = {
         'Type': '무기',
         'Name': '고대 무기',
@@ -56,7 +56,7 @@ def test_armory_equipment_from_dict():
 
 
 def test_armory_avatar_from_dict():
-    """ArmoryAvatar should convert from API response."""
+    """ArmoryAvatar는 API 응답에서 변환되어야 합니다."""
     data = {
         'Type': '무기 아바타',
         'Name': '아바타',
@@ -73,7 +73,7 @@ def test_armory_avatar_from_dict():
 
 
 def test_armory_skill_from_dict():
-    """ArmorySkill should convert from API response."""
+    """ArmorySkill은 API 응답에서 변환되어야 합니다."""
     data = {
         'Name': '스킬',
         'Icon': 'icon',
@@ -89,7 +89,7 @@ def test_armory_skill_from_dict():
 
 
 def test_armory_engraving_from_dict():
-    """ArmoryEngraving should convert from API response."""
+    """ArmoryEngraving은 API 응답에서 변환되어야 합니다."""
     data = {
         'Engravings': [{'Name': '원한'}],
         'Effects': [{'Name': '원한 3'}]
@@ -101,28 +101,28 @@ def test_armory_engraving_from_dict():
 
 
 def test_armory_card_from_dict():
-    """ArmoryCard should convert from API response."""
+    """ArmoryCard는 API 응답에서 변환되어야 합니다."""
     data = {'Cards': [], 'Effects': []}
     card = ArmoryCard.from_dict(data)
     assert isinstance(card.cards, list)
 
 
 def test_armory_gem_from_dict():
-    """ArmoryGem should convert from API response."""
+    """ArmoryGem은 API 응답에서 변환되어야 합니다."""
     data = {'Gems': [], 'Effects': []}
     gem = ArmoryGem.from_dict(data)
     assert isinstance(gem.gems, list)
 
 
 def test_colosseum_info_from_dict():
-    """ColosseumInfo should convert from API response."""
+    """ColosseumInfo는 API 응답에서 변환되어야 합니다."""
     data = {'Rank': 1, 'PreRank': 1, 'Exp': 100, 'Colosseums': []}
     info = ColosseumInfo.from_dict(data)
     assert info.rank == 1
 
 
 def test_collectible_from_dict():
-    """Collectible should convert from API response."""
+    """Collectible은 API 응답에서 변환되어야 합니다."""
     data = {
         'Type': '모코코',
         'Icon': 'icon',
@@ -135,7 +135,7 @@ def test_collectible_from_dict():
 
 
 def test_ark_passive_from_dict():
-    """ArkPassive should convert from API response."""
+    """ArkPassive는 API 응답에서 변환되어야 합니다."""
     data = {
         'IsOpen': True,
         'Points': [],

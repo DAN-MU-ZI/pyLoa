@@ -1,4 +1,4 @@
-"""Game Content models (Calendar, etc)."""
+"""게임 콘텐츠 모델 (캘린더 등)."""
 from dataclasses import dataclass
 from typing import List, Dict, Any
 from pyloa.models.base import BaseModel

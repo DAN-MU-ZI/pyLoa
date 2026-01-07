@@ -1,4 +1,4 @@
-"""Tests for MarketsEndpoint."""
+"""MarketsEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
@@ -7,7 +7,7 @@ from pyloa.models.market import MarketItem, Trade
 
 
 def test_markets_endpoint_initialization():
-    """MarketsEndpoint should have correct base_path."""
+    """MarketsEndpoint는 올바른 base_path를 가져야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
     
@@ -16,7 +16,7 @@ def test_markets_endpoint_initialization():
 
 
 def test_get_options():
-    """get_options should call _request with GET /options."""
+    """get_options는 GET /options로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
     endpoint._request = Mock(return_value={'Categories': [], 'ItemGrades': []})
@@ -28,7 +28,7 @@ def test_get_options():
 
 
 def test_get_item():
-    """get_item should call _request with GET /items/{id}."""
+    """get_item은 GET /items/{id}로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
     endpoint._request = Mock(return_value={
@@ -48,7 +48,7 @@ def test_get_item():
 
 
 def test_search_items():
-    """search_items should call _request with POST /items."""
+    """search_items는 POST /items로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
     endpoint._request = Mock(return_value={
@@ -77,7 +77,7 @@ def test_search_items():
 
 
 def test_get_trades():
-    """get_trades should call _request with POST /trades."""
+    """get_trades는 POST /trades로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = MarketsEndpoint(client)
     endpoint._request = Mock(return_value=[

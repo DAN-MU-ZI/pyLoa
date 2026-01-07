@@ -1,10 +1,10 @@
-"""Tests for Market models."""
+"""Market 모델 테스트."""
 import pytest
 from pyloa.models.market import MarketItem, Trade
 
 
 def test_market_item_from_dict():
-    """MarketItem should convert from API response."""
+    """MarketItem은 API 응답에서 변환되어야 합니다."""
     data = {
         'Id': 66110221,
         'Name': '명예의 파편 주머니(소)',
@@ -28,7 +28,7 @@ def test_market_item_from_dict():
 
 
 def test_market_item_optional_prices():
-    """MarketItem should handle None prices."""
+    """MarketItem은 None 가격을 처리해야 합니다."""
     data = {
         'Id': 123,
         'Name': '테스트 아이템',
@@ -47,7 +47,7 @@ def test_market_item_optional_prices():
 
 
 def test_trade_from_dict():
-    """Trade should convert from API response."""
+    """Trade는 API 응답에서 변환되어야 합니다."""
     data = {
         'Date': '2024-01-07T10:30:00',
         'Price': 1000,
@@ -62,7 +62,7 @@ def test_trade_from_dict():
 
 
 def test_market_item_to_dict():
-    """MarketItem should convert to dict."""
+    """MarketItem은 딕셔너리로 변환되어야 합니다."""
     item = MarketItem(
         id=123,
         name='테스트',

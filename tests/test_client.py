@@ -1,4 +1,4 @@
-"""Tests for LostArkAPI client."""
+"""LostArkAPI 클라이언트 테스트."""
 import pytest
 from unittest.mock import Mock, patch
 from pyloa.client import LostArkAPI
@@ -6,7 +6,7 @@ from pyloa.rate_limiter import RateLimiter
 
 
 def test_client_initialization():
-    """Client should initialize with API key."""
+    """클라이언트가 API 키로 초기화되어야 합니다."""
     api = LostArkAPI(api_key="test_jwt_token")
     
     assert api.api_key == "test_jwt_token"
@@ -14,7 +14,7 @@ def test_client_initialization():
 
 
 def test_client_creates_session_with_headers():
-    """Client should create session with proper headers."""
+    """클라이언트가 적절한 헤더로 세션을 생성해야 합니다."""
     api = LostArkAPI(api_key="test_jwt_token")
     
     assert api.session is not None
@@ -24,7 +24,7 @@ def test_client_creates_session_with_headers():
 
 
 def test_client_initializes_rate_limiter():
-    """Client should create RateLimiter instance."""
+    """클라이언트가 RateLimiter 인스턴스를 생성해야 합니다."""
     api = LostArkAPI(api_key="test_jwt_token")
     
     assert isinstance(api.rate_limiter, RateLimiter)
@@ -33,13 +33,13 @@ def test_client_initializes_rate_limiter():
 
 
 def test_api_key_is_required():
-    """Client should require API key."""
+    """클라이언트는 API 키가 필요해야 합니다."""
     with pytest.raises(TypeError):
         LostArkAPI()
 
 
 def test_api_key_immutable():
-    """API key should not be modifiable after initialization."""
+    """API 키는 초기화 후 수정할 수 없어야 합니다."""
     api = LostArkAPI(api_key="test_jwt_token")
     
     # Should raise AttributeError when trying to set
@@ -48,7 +48,7 @@ def test_api_key_immutable():
 
 
 def test_client_provides_news_endpoint():
-    """Client should provide access to NewsEndpoint."""
+    """클라이언트가 NewsEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.news import NewsEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")
@@ -59,7 +59,7 @@ def test_client_provides_news_endpoint():
 
 
 def test_client_provides_characters_endpoint():
-    """Client should provide access to CharactersEndpoint."""
+    """클라이언트가 CharactersEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.characters import CharactersEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")
@@ -70,7 +70,7 @@ def test_client_provides_characters_endpoint():
 
 
 def test_client_provides_markets_endpoint():
-    """Client should provide access to MarketsEndpoint."""
+    """클라이언트가 MarketsEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.markets import MarketsEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")
@@ -81,7 +81,7 @@ def test_client_provides_markets_endpoint():
 
 
 def test_client_provides_auctions_endpoint():
-    """Client should provide access to AuctionsEndpoint."""
+    """클라이언트가 AuctionsEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.auctions import AuctionsEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")
@@ -92,7 +92,7 @@ def test_client_provides_auctions_endpoint():
 
 
 def test_client_provides_game_contents_endpoint():
-    """Client should provide access to GameContentsEndpoint."""
+    """클라이언트가 GameContentsEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.game_contents import GameContentsEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")
@@ -103,7 +103,7 @@ def test_client_provides_game_contents_endpoint():
 
 
 def test_client_provides_armories_endpoint():
-    """Client should provide access to ArmoriesEndpoint."""
+    """클라이언트가 ArmoriesEndpoint에 접근할 수 있어야 합니다."""
     from pyloa.endpoints.armories import ArmoriesEndpoint
     
     api = LostArkAPI(api_key="test_jwt_token")

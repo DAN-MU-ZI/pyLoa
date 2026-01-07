@@ -1,4 +1,4 @@
-"""Characters endpoint."""
+"""캐릭터 정보 관련 엔드포인트."""
 from typing import List
 from pyloa.endpoints.base import BaseEndpoint
 from pyloa.models.character import Character
@@ -8,10 +8,10 @@ class CharactersEndpoint(BaseEndpoint):
     """캐릭터 정보 endpoint."""
     
     def __init__(self, client):
-        """Initialize CharactersEndpoint.
+        """CharactersEndpoint를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         super().__init__(client)
         self.base_path = "/characters"

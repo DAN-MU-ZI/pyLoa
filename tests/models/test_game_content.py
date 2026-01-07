@@ -1,10 +1,10 @@
-"""Tests for GameContent models."""
+"""GameContent 모델 테스트."""
 import pytest
 from pyloa.models.game_content import GameContent, GameContentRewardItem
 
 
 def test_game_content_reward_item_from_dict():
-    """Reward item should convert from API response."""
+    """Reward item은 API 응답에서 변환되어야 합니다."""
     data = {
         'Name': '전설 카드 팩',
         'Icon': 'https://...',
@@ -19,7 +19,7 @@ def test_game_content_reward_item_from_dict():
 
 
 def test_game_content_from_dict():
-    """GameContent should convert from API response including nested rewards."""
+    """GameContent는 중첩된 보상을 포함하여 API 응답에서 변환되어야 합니다."""
     data = {
         'CategoryName': '필드 보스',
         'ContentsName': '모아케',
@@ -54,7 +54,7 @@ def test_game_content_from_dict():
 
 
 def test_game_content_to_dict():
-    """GameContent should convert to dict including nested rewards."""
+    """GameContent는 중첩된 보상을 포함하여 딕셔너리로 변환되어야 합니다."""
     content = GameContent(
         category_name='가디언 토벌',
         contents_name='데스칼루다',

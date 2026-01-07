@@ -1,10 +1,10 @@
-"""Tests for Auction models."""
+"""Auction 모델 테스트."""
 import pytest
 from pyloa.models.auction import AuctionItem, AuctionOption, AuctionInfo
 
 
 def test_auction_item_from_dict():
-    """AuctionItem should convert from API response."""
+    """AuctionItem은 API 응답에서 변환되어야 합니다."""
     data = {
         'Name': '고대 목걸이',
         'Grade': '고대',
@@ -56,7 +56,7 @@ def test_auction_item_from_dict():
 
 
 def test_auction_info_optional_fields():
-    """AuctionInfo should handle optional prices."""
+    """AuctionInfo는 선택적 가격을 처리해야 합니다."""
     data = {
         'StartPrice': 1000,
         'EndDate': '2024-01-08',
@@ -75,7 +75,7 @@ def test_auction_info_optional_fields():
 
 
 def test_auction_item_to_dict():
-    """AuctionItem should convert to dict including nested objects."""
+    """AuctionItem은 중첩된 객체를 포함하여 딕셔너리로 변환되어야 합니다."""
     item = AuctionItem(
         name='테스트',
         grade='고대',
@@ -109,7 +109,7 @@ def test_auction_item_to_dict():
 
 
 def test_auction_search_result_from_dict():
-    """AuctionSearchResult should convert from API response."""
+    """AuctionSearchResult는 API 응답에서 변환되어야 합니다."""
     from pyloa.models.auction import AuctionSearchResult
     
     data = {

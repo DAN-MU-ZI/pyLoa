@@ -1,4 +1,4 @@
-"""Tests for NewsEndpoint."""
+"""NewsEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock
 from requests import Response
@@ -8,7 +8,7 @@ from pyloa.models.news import Notice, Event
 
 
 def test_news_endpoint_initialization():
-    """NewsEndpoint should have correct base_path."""
+    """NewsEndpoint는 올바른 base_path를 가져야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     
@@ -17,7 +17,7 @@ def test_news_endpoint_initialization():
 
 
 def test_get_notices_no_params():
-    """get_notices should call _request with correct path."""
+    """get_notices는 올바른 경로로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     
@@ -43,7 +43,7 @@ def test_get_notices_no_params():
 
 
 def test_get_notices_with_params():
-    """get_notices should pass params correctly."""
+    """get_notices는 파라미터를 올바르게 전달해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     endpoint._request = Mock(return_value=[])
@@ -59,7 +59,7 @@ def test_get_notices_with_params():
 
 
 def test_get_notices_with_partial_params():
-    """get_notices should handle partial params."""
+    """get_notices는 부분 파라미터를 처리해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     endpoint._request = Mock(return_value=[])
@@ -75,7 +75,7 @@ def test_get_notices_with_partial_params():
 
 
 def test_get_events():
-    """get_events should call _request with correct path."""
+    """get_events는 올바른 경로로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     
@@ -104,7 +104,7 @@ def test_get_events():
 
 
 def test_get_events_missing_reward_date():
-    """get_events should handle missing RewardDate."""
+    """get_events는 RewardDate 누락을 처리해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = NewsEndpoint(client)
     

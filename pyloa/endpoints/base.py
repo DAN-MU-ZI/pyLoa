@@ -1,4 +1,4 @@
-"""Base endpoint for all API endpoints."""
+"""모든 API 엔드포인트의 기본 클래스."""
 from typing import Dict, TYPE_CHECKING
 from requests import HTTPError
 from pyloa.exceptions import APIError, RateLimitError, AuthenticationError
@@ -8,46 +8,46 @@ if TYPE_CHECKING:
 
 
 class BaseEndpoint:
-    """Base class for all API endpoints."""
+    """모든 API 엔드포인트의 기본 클래스."""
     
     def __init__(self, client: 'LostArkAPI'):
-        """Initialize endpoint with client.
+        """클라이언트와 함께 엔드포인트를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         self.client = client
         self.base_path = ""  # Subclasses should override
     
     def _request(self, method: str, path: str, **kwargs) -> Dict:
-        """Make HTTP request with rate limiting and error handling.
+        """속도 제한 및 오류 처리를 포함하여 HTTP 요청을 수행합니다.
         
         Args:
-            method: HTTP method (GET, POST, etc.)
-            path: Endpoint path
-            **kwargs: Additional arguments for requests
+            method: HTTP 메서드 (GET, POST 등)
+            path: 엔드포인트 경로
+            **kwargs: requests 요청을 위한 추가 인자
             
         Returns:
-            JSON response as dictionary
+            Dict: JSON 응답 딕셔너리
             
         Raises:
-            AuthenticationError: On 401 Unauthorized
-            RateLimitError: On 429 Too Many Requests
-            APIError: On other HTTP errors
+            AuthenticationError: 401 Unauthorized 발생 시
+            RateLimitError: 429 Too Many Requests 발생 시
+            APIError: 기타 HTTP 오류 발생 시
         """
-        # Wait if rate limit exceeded
+        # 속도 제한 초과 시 대기
         self.client.rate_limiter.wait_if_needed()
         
-        # Build full URL
+        # 전체 URL 생성
         url = f"{self.client.base_url}{self.base_path}{path}"
         
-        # Make request
+        # 요청 수행
         response = self.client.session.request(method, url, **kwargs)
         
-        # Update rate limiter from headers
+        # 헤더에서 속도 제한 정보 업데이트
         self.client.rate_limiter.update(response.headers)
         
-        # Handle errors
+        # 오류 처리
         try:
             response.raise_for_status()
         except HTTPError:

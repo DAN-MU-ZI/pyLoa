@@ -1,10 +1,10 @@
-"""Tests for Character models."""
+"""Character 모델 테스트."""
 import pytest
 from pyloa.models.character import Character
 
 
 def test_character_from_dict_basic():
-    """Character should convert from API response format."""
+    """Character는 API 응답 형식에서 변환되어야 합니다."""
     data = {
         'ServerName': '아만',
         'CharacterName': '홍길동',
@@ -25,7 +25,7 @@ def test_character_from_dict_basic():
 
 
 def test_character_to_dict():
-    """Character should convert to dict."""
+    """Character는 딕셔너리로 변환되어야 합니다."""
     character = Character(
         server_name='아만',
         character_name='홍길동',

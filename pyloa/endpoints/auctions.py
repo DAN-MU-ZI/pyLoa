@@ -1,4 +1,4 @@
-"""Auctions endpoint."""
+"""경매장 관련 엔드포인트."""
 from typing import Dict, Any
 from pyloa.endpoints.base import BaseEndpoint
 from pyloa.models.auction import AuctionSearchResult
@@ -8,10 +8,10 @@ class AuctionsEndpoint(BaseEndpoint):
     """경매장 endpoint."""
     
     def __init__(self, client):
-        """Initialize AuctionsEndpoint.
+        """AuctionsEndpoint를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         super().__init__(client)
         self.base_path = "/auctions"

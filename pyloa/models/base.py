@@ -1,4 +1,4 @@
-"""Base model for API response objects."""
+"""API 응답 객체를 위한 기본 모델."""
 from dataclasses import asdict
 from typing import Dict, TypeVar, Type
 import re
@@ -8,26 +8,26 @@ T = TypeVar('T', bound='BaseModel')
 
 
 class BaseModel:
-    """Base class for all API response models."""
+    """모든 API 응답 모델의 기본 클래스."""
     
     @classmethod
     def _pascal_to_snake(cls, name: str) -> str:
-        """Convert PascalCase to snake_case."""
+        """PascalCase를 snake_case로 변환합니다."""
         # Insert underscore before uppercase letters
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
     
     @classmethod
     def _snake_to_pascal(cls, name: str) -> str:
-        """Convert snake_case to PascalCase."""
+        """snake_case를 PascalCase로 변환합니다."""
         components = name.split('_')
         return ''.join(x.title() for x in components)
     
     @classmethod
     def from_dict(cls: Type[T], data: Dict) -> T:
-        """Create model instance from dictionary.
+        """딕셔너리에서 모델 인스턴스를 생성합니다.
         
-        Supports both PascalCase (API format) and snake_case (Python format).
+        PascalCase(API 형식)와 snake_case(Python 형식)를 모두 지원합니다.
         """
         # Get field names from dataclass
         import dataclasses
@@ -48,5 +48,5 @@ class BaseModel:
         return cls(**kwargs)
     
     def to_dict(self) -> Dict:
-        """Convert model instance to dictionary."""
+        """모델 인스턴스를 딕셔너리로 변환합니다."""
         return asdict(self)

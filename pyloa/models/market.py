@@ -1,4 +1,4 @@
-"""Market-related models."""
+"""거래소 관련 모델."""
 from dataclasses import dataclass
 from typing import Optional
 from pyloa.models.base import BaseModel

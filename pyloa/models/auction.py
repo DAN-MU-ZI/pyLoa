@@ -1,4 +1,4 @@
-"""Auction-related models."""
+"""경매장 관련 모델."""
 from dataclasses import dataclass
 from typing import List, Optional, Any, Dict
 from pyloa.models.base import BaseModel

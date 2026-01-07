@@ -1,4 +1,4 @@
-"""Tests for BaseModel."""
+"""BaseModel 테스트."""
 import pytest
 from dataclasses import dataclass
 from typing import Optional
@@ -7,7 +7,7 @@ from pyloa.models.base import BaseModel
 
 @dataclass
 class SampleModel(BaseModel):
-    """Sample model for testing."""
+    """테스트를 위한 샘플 모델."""
     server_name: str
     character_name: str
     item_avg_level: str
@@ -15,7 +15,7 @@ class SampleModel(BaseModel):
 
 
 def test_from_dict_basic():
-    """BaseModel should convert dict to object."""
+    """BaseModel은 딕셔너리를 객체로 변환해야 합니다."""
     data = {
         'ServerName': '아만',
         'CharacterName': '홍길동',
@@ -30,7 +30,7 @@ def test_from_dict_basic():
 
 
 def test_from_dict_with_optional_field():
-    """BaseModel should handle optional fields."""
+    """BaseModel은 선택적 필드를 처리해야 합니다."""
     data = {
         'ServerName': '아만',
         'CharacterName': '홍길동',
@@ -44,7 +44,7 @@ def test_from_dict_with_optional_field():
 
 
 def test_from_dict_missing_optional_field():
-    """BaseModel should handle missing optional fields."""
+    """BaseModel은 누락된 선택적 필드를 처리해야 합니다."""
     data = {
         'ServerName': '아만',
         'CharacterName': '홍길동',
@@ -57,7 +57,7 @@ def test_from_dict_missing_optional_field():
 
 
 def test_to_dict():
-    """BaseModel should convert object to dict."""
+    """BaseModel은 객체를 딕셔너리로 변환해야 합니다."""
     model = SampleModel(
         server_name='아만',
         character_name='홍길동',
@@ -74,7 +74,7 @@ def test_to_dict():
 
 
 def test_from_dict_snake_case_input():
-    """BaseModel should also accept snake_case input."""
+    """BaseModel은 snake_case 입력도 수락해야 합니다."""
     data = {
         'server_name': '아만',
         'character_name': '홍길동',
@@ -88,7 +88,7 @@ def test_from_dict_snake_case_input():
 
 
 def test_roundtrip():
-    """BaseModel should support roundtrip conversion."""
+    """BaseModel은 왕복 변환(roundtrip)을 지원해야 합니다."""
     original_data = {
         'ServerName': '아만',
         'CharacterName': '홍길동',
@@ -106,7 +106,7 @@ def test_roundtrip():
 
 # Negative test cases
 def test_from_dict_with_non_dataclass():
-    """BaseModel should raise TypeError for non-dataclass."""
+    """BaseModel은 비-dataclass에 대해 TypeError를 발생시켜야 합니다."""
     class NonDataclass(BaseModel):
         pass
     
@@ -115,7 +115,7 @@ def test_from_dict_with_non_dataclass():
 
 
 def test_from_dict_missing_required_field():
-    """BaseModel should raise TypeError when required field is missing."""
+    """BaseModel은 필수 필드가 누락된 경우 TypeError를 발생시켜야 합니다."""
     data = {
         'ServerName': '아만',
         # CharacterName is missing
@@ -127,6 +127,6 @@ def test_from_dict_missing_required_field():
 
 
 def test_from_dict_empty_data():
-    """BaseModel should raise TypeError for empty dict."""
+    """BaseModel은 빈 딕셔너리에 대해 TypeError를 발생시켜야 합니다."""
     with pytest.raises(TypeError):
         SampleModel.from_dict({})

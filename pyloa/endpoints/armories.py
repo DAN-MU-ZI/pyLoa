@@ -1,4 +1,4 @@
-"""Armories endpoint."""
+"""Armories 관련 엔드포인트."""
 from typing import List, Optional, Dict, Any
 from pyloa.endpoints.base import BaseEndpoint
 from pyloa.models.armory import (
@@ -12,10 +12,10 @@ class ArmoriesEndpoint(BaseEndpoint):
     """캐릭터 정보(Armories) endpoint."""
     
     def __init__(self, client):
-        """Initialize ArmoriesEndpoint.
+        """ArmoriesEndpoint를 초기화합니다.
         
         Args:
-            client: LostArkAPI instance
+            client: LostArkAPI 인스턴스
         """
         super().__init__(client)
         self.base_path = "/armories/characters"

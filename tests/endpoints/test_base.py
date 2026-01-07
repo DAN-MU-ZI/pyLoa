@@ -1,4 +1,4 @@
-"""Tests for BaseEndpoint."""
+"""BaseEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock, MagicMock, patch
 from requests import Response, HTTPError
@@ -8,14 +8,14 @@ from pyloa.exceptions import APIError, RateLimitError, AuthenticationError
 
 
 class ConcreteEndpoint(BaseEndpoint):
-    """Concrete endpoint for testing."""
+    """테스트를 위한 구체적인 엔드포인트."""
     def __init__(self, client):
         super().__init__(client)
         self.base_path = "/test"
 
 
 def test_endpoint_initialization():
-    """BaseEndpoint should store client reference."""
+    """BaseEndpoint는 클라이언트 참조를 저장해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ConcreteEndpoint(client)
     
@@ -24,7 +24,7 @@ def test_endpoint_initialization():
 
 
 def test_request_calls_rate_limiter():
-    """_request should check rate limiter before making request."""
+    """_request는 요청 전에 속도 제한기를 확인해야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
@@ -45,7 +45,7 @@ def test_request_calls_rate_limiter():
 
 
 def test_request_makes_http_call():
-    """_request should make HTTP request with correct URL."""
+    """_request는 올바른 URL로 HTTP 요청을 수행해야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
@@ -70,7 +70,7 @@ def test_request_makes_http_call():
 
 
 def test_request_updates_rate_limiter():
-    """_request should update rate limiter from response headers."""
+    """_request는 응답 헤더에서 속도 제한기를 업데이트해야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
@@ -92,7 +92,7 @@ def test_request_updates_rate_limiter():
 
 
 def test_request_raises_authentication_error_on_401():
-    """_request should raise AuthenticationError on 401."""
+    """_request는 401 발생 시 AuthenticationError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
@@ -112,7 +112,7 @@ def test_request_raises_authentication_error_on_401():
 
 
 def test_request_raises_rate_limit_error_on_429():
-    """_request should raise RateLimitError on 429."""
+    """_request는 429 발생 시 RateLimitError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
@@ -132,7 +132,7 @@ def test_request_raises_rate_limit_error_on_429():
 
 
 def test_request_raises_api_error_on_4xx_5xx():
-    """_request should raise APIError on other errors."""
+    """_request는 기타 오류 발생 시 APIError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()

@@ -1,4 +1,4 @@
-"""Tests for CharactersEndpoint."""
+"""CharactersEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
@@ -7,7 +7,7 @@ from pyloa.models.character import Character
 
 
 def test_characters_endpoint_initialization():
-    """CharactersEndpoint should have correct base_path."""
+    """CharactersEndpoint는 올바른 base_path를 가져야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = CharactersEndpoint(client)
     
@@ -16,7 +16,7 @@ def test_characters_endpoint_initialization():
 
 
 def test_get_siblings():
-    """get_siblings should call _request with correct path."""
+    """get_siblings는 올바른 경로로 _request를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = CharactersEndpoint(client)
     
@@ -53,7 +53,7 @@ def test_get_siblings():
 
 
 def test_get_siblings_url_encoding():
-    """get_siblings should handle character names with spaces/special chars."""
+    """get_siblings는 공백이나 특수 문자가 포함된 캐릭터 이름을 처리해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = CharactersEndpoint(client)
     endpoint._request = Mock(return_value=[])

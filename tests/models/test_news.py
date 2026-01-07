@@ -1,10 +1,10 @@
-"""Tests for News models."""
+"""News 모델 테스트."""
 import pytest
 from pyloa.models.news import Notice, Event
 
 
 def test_notice_from_dict_basic():
-    """Notice should convert from API response format."""
+    """Notice는 API 응답 형식에서 변환되어야 합니다."""
     data = {
         'Title': '로스트아크 업데이트 안내',
         'Date': '2024-01-07',
@@ -21,7 +21,7 @@ def test_notice_from_dict_basic():
 
 
 def test_event_from_dict_all_fields():
-    """Event should convert from API response with all fields."""
+    """Event는 모든 필드를 포함하여 API 응답에서 변환되어야 합니다."""
     data = {
         'Title': '신규 이벤트',
         'Thumbnail': 'https://cdn-lostark.game.onstove.com/...',
@@ -42,7 +42,7 @@ def test_event_from_dict_all_fields():
 
 
 def test_event_from_dict_missing_reward_date():
-    """Event should handle missing RewardDate."""
+    """Event는 RewardDate 누락을 처리해야 합니다."""
     data = {
         'Title': '신규 이벤트',
         'Thumbnail': 'https://cdn-lostark.game.onstove.com/...',
@@ -57,7 +57,7 @@ def test_event_from_dict_missing_reward_date():
 
 
 def test_notice_to_dict():
-    """Notice should convert to dict."""
+    """Notice는 딕셔너리로 변환되어야 합니다."""
     notice = Notice(
         title='테스트 공지',
         date='2024-01-07',

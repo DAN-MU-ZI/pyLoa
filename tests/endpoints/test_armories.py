@@ -1,4 +1,4 @@
-"""Tests for ArmoriesEndpoint."""
+"""ArmoriesEndpoint 테스트."""
 import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
@@ -7,7 +7,7 @@ from pyloa.models.armory import ArmoryProfile, ArmoryEquipment
 
 
 def test_armories_endpoint_initialization():
-    """Endpoint should have correct base_path."""
+    """Endpoint는 올바른 base_path를 가져야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     
@@ -16,7 +16,7 @@ def test_armories_endpoint_initialization():
 
 
 def test_get_profile():
-    """get_profile should call GET /profiles."""
+    """get_profile은 GET /profiles를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={
@@ -57,7 +57,7 @@ def test_get_profile():
 
 
 def test_get_equipment():
-    """get_equipment should call GET /equipment and return list."""
+    """get_equipment는 GET /equipment를 호출하고 리스트를 반환해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value=[{
@@ -76,7 +76,7 @@ def test_get_equipment():
 
 
 def test_get_avatars():
-    """get_avatars should call GET /avatars."""
+    """get_avatars는 GET /avatars를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value=[{'Type': '무기 아바타', 'Name': '아바타', 'Icon': '...', 'Grade': '전설', 'IsSet': False, 'IsInner': False, 'Tooltip': '...'}])
@@ -89,7 +89,7 @@ def test_get_avatars():
 
 
 def test_get_combat_skills():
-    """get_combat_skills should call GET /combat-skills."""
+    """get_combat_skills는 GET /combat-skills를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value=[{'Name': '스킬', 'Icon': '...', 'Level': 12, 'Type': '일반', 'IsAwake': False, 'Tooltip': '...'}])
@@ -102,7 +102,7 @@ def test_get_combat_skills():
 
 
 def test_get_engravings():
-    """get_engravings should call GET /engravings."""
+    """get_engravings는 GET /engravings를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={'Engravings': [], 'Effects': []})
@@ -114,7 +114,7 @@ def test_get_engravings():
 
 
 def test_get_cards():
-    """get_cards should call GET /cards."""
+    """get_cards는 GET /cards를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={'Cards': [], 'Effects': []})
@@ -126,7 +126,7 @@ def test_get_cards():
 
 
 def test_get_gems():
-    """get_gems should call GET /gems."""
+    """get_gems는 GET /gems를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={'Gems': [], 'Effects': []})
@@ -138,7 +138,7 @@ def test_get_gems():
 
 
 def test_get_colosseums():
-    """get_colosseums should call GET /colosseums."""
+    """get_colosseums는 GET /colosseums를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={'Rank': 1, 'PreRank': 1, 'Exp': 100, 'Colosseums': []})
@@ -150,7 +150,7 @@ def test_get_colosseums():
 
 
 def test_get_collectibles():
-    """get_collectibles should call GET /collectibles."""
+    """get_collectibles는 GET /collectibles를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value=[{'Type': '모코코', 'Icon': '...', 'Point': 10, 'MaxPoint': 100, 'CollectiblePoints': []}])
@@ -163,7 +163,7 @@ def test_get_collectibles():
 
 
 def test_get_ark_passive():
-    """get_ark_passive should call GET /arkpassive."""
+    """get_ark_passive는 GET /arkpassive를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={'IsOpen': True, 'Points': [], 'Effects': []})

@@ -1,4 +1,4 @@
-"""Character-related models."""
+"""캐릭터 관련 모델."""
 from dataclasses import dataclass
 from pyloa.models.base import BaseModel
 
