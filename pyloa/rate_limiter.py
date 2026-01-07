@@ -1,6 +1,5 @@
 """Rate limiter for API requests."""
 from datetime import datetime
-from time import sleep
 from typing import Dict, Optional
 
 
@@ -13,14 +12,17 @@ class RateLimiter:
         self.remaining: int = 100
         self.reset_time: Optional[datetime] = None
     
-    def wait_if_needed(self) -> None:
-        """Wait if rate limit has been exceeded."""
+    def get_wait_duration(self) -> float:
+        """Return the number of seconds to wait before the next request.
+        
+        Returns:
+            float: Seconds to wait. 0.0 if no wait is needed.
+        """
         if self.remaining <= 0 and self.reset_time:
             now = datetime.now()
             if now < self.reset_time:
-                wait_seconds = (self.reset_time - now).total_seconds()
-                print(f"Rate limit reached. Waiting {wait_seconds:.1f}s...")
-                sleep(wait_seconds)
+                return (self.reset_time - now).total_seconds()
+        return 0.0
     
     def update(self, headers: Dict[str, str]) -> None:
         """Update rate limit info from response headers."""

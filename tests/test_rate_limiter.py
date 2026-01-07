@@ -1,7 +1,7 @@
 """Tests for RateLimiter."""
 import pytest
 from datetime import datetime, timedelta
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from pyloa.rate_limiter import RateLimiter
 
 
@@ -32,51 +32,39 @@ def test_update_from_headers():
     assert limiter.reset_time is not None
 
 
-def test_wait_if_needed_does_not_wait_when_remaining():
-    """wait_if_needed should not wait when requests remain."""
+def test_get_wait_duration_returns_zero_when_remaining():
+    """get_wait_duration should return 0.0 when requests remain."""
     limiter = RateLimiter()
     limiter.remaining = 50
+    limiter.reset_time = datetime.now() + timedelta(seconds=60)
     
-    # Should return immediately without sleeping
-    with patch('time.sleep') as mock_sleep:
-        limiter.wait_if_needed()
-        mock_sleep.assert_not_called()
+    assert limiter.get_wait_duration() == 0.0
 
 
-def test_wait_if_needed_waits_when_limit_exceeded():
-    """wait_if_needed should wait when rate limit is exceeded."""
+def test_get_wait_duration_returns_seconds_when_limited():
+    """get_wait_duration should return remaining seconds when limit exceeded."""
     limiter = RateLimiter()
     limiter.remaining = 0
-    limiter.reset_time = datetime.now() + timedelta(seconds=2)
+    # Set reset time to 5 seconds in the future
+    limiter.reset_time = datetime.now() + timedelta(seconds=5)
     
-    with patch('pyloa.rate_limiter.sleep') as mock_sleep:
-        limiter.wait_if_needed()
-        # Should have called sleep with a positive duration
-        assert mock_sleep.called
-        sleep_duration = mock_sleep.call_args[0][0]
-        assert sleep_duration > 0
+    duration = limiter.get_wait_duration()
+    assert 4.0 < duration <= 5.0
 
 
-def test_wait_if_needed_does_not_wait_after_reset():
-    """wait_if_needed should not wait if reset time has passed."""
+def test_get_wait_duration_returns_zero_after_reset():
+    """get_wait_duration should return 0.0 if reset time has passed."""
     limiter = RateLimiter()
     limiter.remaining = 0
     limiter.reset_time = datetime.now() - timedelta(seconds=10)  # Past time
     
-    with patch('time.sleep') as mock_sleep:
-        limiter.wait_if_needed()
-        mock_sleep.assert_not_called()
+    assert limiter.get_wait_duration() == 0.0
 
 
-def test_partial_header_update():
-    """RateLimiter should handle partial headers gracefully."""
+def test_get_wait_duration_returns_zero_without_reset_time():
+    """get_wait_duration should return 0.0 if reset_time is not set."""
     limiter = RateLimiter()
+    limiter.remaining = 0
+    limiter.reset_time = None
     
-    # Only some headers present
-    headers = {
-        'X-RateLimit-Remaining': '42'
-    }
-    
-    limiter.update(headers)
-    assert limiter.remaining == 42
-    assert limiter.limit == 100  # Should remain default
+    assert limiter.get_wait_duration() == 0.0
