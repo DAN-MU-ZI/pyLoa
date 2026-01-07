@@ -26,7 +26,7 @@ from .armory import (
 )
 from .auction import AuctionItem, AuctionOption, AuctionInfo, AuctionSearchResult
 from .market import MarketItem, Trade
-from .game_content import GameContent, GameContentRewardItem
+from .game_content import ContentsCalendar, LevelRewardItems, RewardItem
 
 __all__ = [
     "BaseModel",
@@ -56,6 +56,7 @@ __all__ = [
     "AuctionSearchResult",
     "MarketItem",
     "Trade",
-    "GameContent",
-    "GameContentRewardItem",
+    "ContentsCalendar",
+    "LevelRewardItems",
+    "RewardItem",
 ]

@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
 from pyloa.endpoints.game_contents import GameContentsEndpoint
-from pyloa.models.game_content import GameContent
+from pyloa.models.game_content import ContentsCalendar
 
 
 def test_game_contents_endpoint_initialization():
@@ -33,5 +33,5 @@ def test_get_calendar():
     
     endpoint._request.assert_called_once_with('GET', '/calendar')
     assert len(result) == 1
-    assert isinstance(result[0], GameContent)
+    assert isinstance(result[0], ContentsCalendar)
     assert result[0].contents_name == '모아케'

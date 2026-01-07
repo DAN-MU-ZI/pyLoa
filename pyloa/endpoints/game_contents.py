@@ -1,7 +1,7 @@
 """게임 콘텐츠 관련 엔드포인트."""
 from typing import List
 from pyloa.endpoints.base import BaseEndpoint
-from pyloa.models.game_content import GameContent
+from pyloa.models.game_content import ContentsCalendar
 
 
 class GameContentsEndpoint(BaseEndpoint):
@@ -16,11 +16,12 @@ class GameContentsEndpoint(BaseEndpoint):
         super().__init__(client)
         self.base_path = "/gamecontents"
     
-    def get_calendar(self) -> List[GameContent]:
+    def get_calendar(self) -> List[ContentsCalendar]:
         """주간 캘린더 조회 (도전 가디언 등).
         
         Returns:
-            List of GameContent objects
+            List of ContentsCalendar objects
         """
         data = self._request('GET', '/calendar')
-        return [GameContent.from_dict(item) for item in data]
+        return [ContentsCalendar.from_dict(item) for item in data]
+
