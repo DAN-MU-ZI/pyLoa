@@ -45,3 +45,14 @@ def test_api_key_immutable():
     # Should raise AttributeError when trying to set
     with pytest.raises(AttributeError):
         api.api_key = "new_key"
+
+
+def test_client_provides_news_endpoint():
+    """Client should provide access to NewsEndpoint."""
+    from pyloa.endpoints.news import NewsEndpoint
+    
+    api = LostArkAPI(api_key="test_jwt_token")
+    
+    assert isinstance(api.news, NewsEndpoint)
+    # Should return same instance (lazy initialization)
+    assert api.news is api.news

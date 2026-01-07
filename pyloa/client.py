@@ -29,3 +29,11 @@ class LostArkAPI:
     def api_key(self) -> str:
         """Get API key (read-only)."""
         return self._api_key
+    
+    @property
+    def news(self):
+        """Access News endpoint."""
+        if not hasattr(self, '_news'):
+            from pyloa.endpoints.news import NewsEndpoint
+            self._news = NewsEndpoint(self)
+        return self._news
