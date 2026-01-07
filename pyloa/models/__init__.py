@@ -5,8 +5,8 @@ API 응답을 표현하는 데이터 클래스들을 제공합니다.
 """
 
 from .base import BaseModel
-from .news import Notice, Event, UserAlarm, UserAlarmContent
-from .character import Character
+from .news import NoticeList, Event, OpenAPIUserAlarm, OpenAPIUserAlarmContent
+from .character import CharacterInfo
 from .armory import (
     ArmoryProfile,
     ArmoryEquipment,
@@ -30,11 +30,11 @@ from .game_content import GameContent, GameContentRewardItem
 
 __all__ = [
     "BaseModel",
-    "Notice",
+    "NoticeList",
     "Event",
-    "UserAlarm",
-    "UserAlarmContent",
-    "Character",
+    "OpenAPIUserAlarm",
+    "OpenAPIUserAlarmContent",
+    "CharacterInfo",
     "ArmoryProfile",
     "ArmoryEquipment",
     "ArmoryAvatar",

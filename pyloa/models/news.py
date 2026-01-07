@@ -1,17 +1,16 @@
 """뉴스/공지 관련 모델."""
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, List
 from pyloa.models.base import BaseModel
 
 
 @dataclass
-class Notice(BaseModel):
+class NoticeList(BaseModel):
     """공지사항 모델."""
     title: str
     date: str
     link: str
     type: str
-
 
 
 @dataclass
@@ -26,32 +25,33 @@ class Event(BaseModel):
 
 
 @dataclass
-class UserAlarmContent(BaseModel):
+class OpenAPIUserAlarmContent(BaseModel):
     """유저 알람 내용 모델."""
     alarm_type: str
     contents: str
     start_date: str
-    end_date: str
+    end_date: Optional[str] = None
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'UserAlarmContent':
+    def from_dict(cls, data: dict) -> 'OpenAPIUserAlarmContent':
         return cls(
             alarm_type=data.get('AlarmType', ''),
             contents=data.get('Contents', ''),
             start_date=data.get('StartDate', ''),
-            end_date=data.get('EndDate', '')
+            end_date=data.get('EndDate')
         )
 
 
 @dataclass
-class UserAlarm(BaseModel):
+class OpenAPIUserAlarm(BaseModel):
     """유저 알람 모델."""
     require_polling: bool
-    alarms: list[UserAlarmContent]
+    alarms: List[OpenAPIUserAlarmContent] = field(default_factory=list)
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'UserAlarm':
+    def from_dict(cls, data: dict) -> 'OpenAPIUserAlarm':
         return cls(
             require_polling=data.get('RequirePolling', False),
-            alarms=[UserAlarmContent.from_dict(item) for item in data.get('Alarms', [])]
+            alarms=[OpenAPIUserAlarmContent.from_dict(item) for item in data.get('Alarms', [])]
         )
+

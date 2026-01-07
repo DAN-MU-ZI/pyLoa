@@ -1,10 +1,10 @@
-"""News 모델 테스트."""
+"""NoticeList 모델 테스트."""
 import pytest
-from pyloa.models.news import Notice, Event
+from pyloa.models.news import NoticeList, Event
 
 
 def test_notice_from_dict_basic():
-    """Notice는 API 응답 형식에서 변환되어야 합니다."""
+    """NoticeList는 API 응답 형식에서 변환되어야 합니다."""
     data = {
         'Title': '로스트아크 업데이트 안내',
         'Date': '2024-01-07',
@@ -12,7 +12,7 @@ def test_notice_from_dict_basic():
         'Type': '공지'
     }
     
-    notice = Notice.from_dict(data)
+    notice = NoticeList.from_dict(data)
     
     assert notice.title == '로스트아크 업데이트 안내'
     assert notice.date == '2024-01-07'
@@ -57,8 +57,8 @@ def test_event_from_dict_missing_reward_date():
 
 
 def test_notice_to_dict():
-    """Notice는 딕셔너리로 변환되어야 합니다."""
-    notice = Notice(
+    """NoticeList는 딕셔너리로 변환되어야 합니다."""
+    notice = NoticeList(
         title='테스트 공지',
         date='2024-01-07',
         link='https://test.com',
@@ -71,3 +71,4 @@ def test_notice_to_dict():
     assert data['date'] == '2024-01-07'
     assert data['link'] == 'https://test.com'
     assert data['type'] == '공지'
+

@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from requests import Response
 from pyloa.client import LostArkAPI
 from pyloa.endpoints.news import NewsEndpoint
-from pyloa.models.news import Notice, Event
+from pyloa.models.news import NoticeList, Event, OpenAPIUserAlarm
 
 
 def test_news_endpoint_initialization():
@@ -36,9 +36,9 @@ def test_get_notices_no_params():
     # Should call _request with GET /notices
     endpoint._request.assert_called_once_with('GET', '/notices', params={})
     
-    # Should return list of Notice objects
+    # Should return list of NoticeList objects
     assert len(notices) == 1
-    assert isinstance(notices[0], Notice)
+    assert isinstance(notices[0], NoticeList)
     assert notices[0].title == '테스트 공지'
 
 
@@ -141,14 +141,13 @@ def test_get_alarms():
         ]
     })
     
-    from pyloa.models.news import UserAlarm
     alarm = endpoint.get_alarms()
     
     # Should call _request with GET /alarms
     endpoint._request.assert_called_once_with('GET', '/alarms')
     
-    # Should return UserAlarm object
-    assert isinstance(alarm, UserAlarm)
+    # Should return OpenAPIUserAlarm object
+    assert isinstance(alarm, OpenAPIUserAlarm)
     assert alarm.require_polling is True
     assert len(alarm.alarms) == 1
     assert alarm.alarms[0].contents == 'Test Alarm'

@@ -4,11 +4,12 @@ from pyloa.models.base import BaseModel
 
 
 @dataclass
-class Character(BaseModel):
+class CharacterInfo(BaseModel):
     """캐릭터 기본 정보 모델."""
     server_name: str
     character_name: str
     character_level: int
     character_class_name: str
     item_avg_level: str
-    item_max_level: str
+
+

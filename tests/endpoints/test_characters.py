@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock
 from pyloa.client import LostArkAPI
 from pyloa.endpoints.characters import CharactersEndpoint
-from pyloa.models.character import Character
+from pyloa.models.character import CharacterInfo
 
 
 def test_characters_endpoint_initialization():
@@ -27,16 +27,14 @@ def test_get_siblings():
             'CharacterName': '홍길동',
             'CharacterLevel': 60,
             'CharacterClassName': '버서커',
-            'ItemAvgLevel': '1620.00',
-            'ItemMaxLevel': '1625.00'
+            'ItemAvgLevel': '1620.00'
         },
         {
             'ServerName': '아만',
             'CharacterName': '김철수',
             'CharacterLevel': 60,
             'CharacterClassName': '소서리스',
-            'ItemAvgLevel': '1615.83',
-            'ItemMaxLevel': '1620.00'
+            'ItemAvgLevel': '1615.83'
         }
     ])
     
@@ -45,11 +43,12 @@ def test_get_siblings():
     # Should call _request with GET /홍길동/siblings
     endpoint._request.assert_called_once_with('GET', '/홍길동/siblings')
     
-    # Should return list of Character objects
+    # Should return list of CharacterInfo objects
     assert len(siblings) == 2
-    assert isinstance(siblings[0], Character)
+    assert isinstance(siblings[0], CharacterInfo)
     assert siblings[0].character_name == '홍길동'
     assert siblings[1].character_name == '김철수'
+
 
 
 def test_get_siblings_url_encoding():

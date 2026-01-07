@@ -1,9 +1,9 @@
-"""News Alarm 모델 테스트."""
-from pyloa.models.news import UserAlarm, UserAlarmContent
+"""OpenAPIUserAlarm 모델 테스트."""
+from pyloa.models.news import OpenAPIUserAlarm, OpenAPIUserAlarmContent
 
 
 def test_user_alarm_deserialization():
-    """UserAlarm은 API 응답에서 올바르게 역직렬화되어야 합니다."""
+    """OpenAPIUserAlarm은 API 응답에서 올바르게 역직렬화되어야 합니다."""
     data = {
         "RequirePolling": True,
         "Alarms": [
@@ -16,12 +16,13 @@ def test_user_alarm_deserialization():
         ]
     }
     
-    alarm = UserAlarm.from_dict(data)
+    alarm = OpenAPIUserAlarm.from_dict(data)
     
     assert alarm.require_polling is True
     assert len(alarm.alarms) == 1
-    assert isinstance(alarm.alarms[0], UserAlarmContent)
+    assert isinstance(alarm.alarms[0], OpenAPIUserAlarmContent)
     assert alarm.alarms[0].alarm_type == "All"
     assert alarm.alarms[0].contents == "Alarm Content 1"
     assert alarm.alarms[0].start_date == "2024-01-01T00:00:00"
     assert alarm.alarms[0].end_date == "2024-01-02T00:00:00"
+
