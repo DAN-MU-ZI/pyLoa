@@ -1,0 +1,93 @@
+classDiagram
+    direction LR
+    class LostArkAPI {
+        -string _api_key
+        +string base_url
+        +Session session
+        +RateLimiter rate_limiter
+        +__init__(api_key: str)
+        +news : NewsEndpoint
+        +characters : CharactersEndpoint
+        +armories : ArmoriesEndpoint
+        +markets : MarketsEndpoint
+        +auctions : AuctionsEndpoint
+        +game_contents : GameContentsEndpoint
+    }
+
+    class RateLimiter {
+        +int limit
+        +int remaining
+        +datetime reset_time
+        +__init__()
+        +get_wait_duration() float
+        +update(headers: Dict)
+    }
+
+    class BaseEndpoint {
+        #LostArkAPI client
+        #string base_path
+        +__init__(client: LostArkAPI)
+        #_request(method: str, path: str, **kwargs) Dict
+    }
+
+    class NewsEndpoint {
+        +get_notices(searchText, type) List~Notice~
+        +get_events() List~Event~
+        +get_alarms() UserAlarm
+    }
+
+    class CharactersEndpoint {
+        +get_siblings(character_name: str) List~Character~
+    }
+
+    class ArmoriesEndpoint {
+        +get_profile(character_name: str) ArmoryProfile
+        +get_equipment(character_name: str) List~ArmoryEquipment~
+        +get_avatars(character_name: str) List~ArmoryAvatar~
+        +get_combat_skills(character_name: str) List~ArmorySkill~
+        +get_engravings(character_name: str) ArmoryEngraving
+        +get_cards(character_name: str) ArmoryCard
+        +get_gems(character_name: str) ArmoryGem
+    }
+
+    class MarketsEndpoint {
+        +get_options() Dict
+        +get_item(item_id: int) MarketItem
+        +search_items(**kwargs) Dict
+        +get_trades(**kwargs) List~Trade~
+    }
+
+    class AuctionsEndpoint {
+        +get_options() Dict
+        +get_items(**kwargs) AuctionSearchResult
+    }
+
+    class GameContentsEndpoint {
+        +get_calendar() List~GameContent~
+    }
+
+    class BaseModel {
+        +from_dict(data: Dict) T
+        +to_dict() Dict
+    }
+
+    LostArkAPI --> RateLimiter : uses
+    LostArkAPI --> NewsEndpoint : has
+    LostArkAPI --> CharactersEndpoint : has
+    LostArkAPI --> ArmoriesEndpoint : has
+    LostArkAPI --> MarketsEndpoint : has
+    LostArkAPI --> AuctionsEndpoint : has
+    LostArkAPI --> GameContentsEndpoint : has
+
+    BaseEndpoint <|-- NewsEndpoint : inherits
+    BaseEndpoint <|-- CharactersEndpoint : inherits
+    BaseEndpoint <|-- ArmoriesEndpoint : inherits
+    BaseEndpoint <|-- MarketsEndpoint : inherits
+    BaseEndpoint <|-- AuctionsEndpoint : inherits
+    BaseEndpoint <|-- GameContentsEndpoint : inherits
+    
+    BaseEndpoint --> LostArkAPI : uses
+
+    BaseModel <|-- Character : inherits
+    BaseModel <|-- Notice : inherits
+    BaseModel <|-- Event : inherits
