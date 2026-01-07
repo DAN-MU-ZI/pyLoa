@@ -37,3 +37,11 @@ class LostArkAPI:
             from pyloa.endpoints.news import NewsEndpoint
             self._news = NewsEndpoint(self)
         return self._news
+    
+    @property
+    def characters(self):
+        """Access Characters endpoint."""
+        if not hasattr(self, '_characters'):
+            from pyloa.endpoints.characters import CharactersEndpoint
+            self._characters = CharactersEndpoint(self)
+        return self._characters

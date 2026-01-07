@@ -56,3 +56,14 @@ def test_client_provides_news_endpoint():
     assert isinstance(api.news, NewsEndpoint)
     # Should return same instance (lazy initialization)
     assert api.news is api.news
+
+
+def test_client_provides_characters_endpoint():
+    """Client should provide access to CharactersEndpoint."""
+    from pyloa.endpoints.characters import CharactersEndpoint
+    
+    api = LostArkAPI(api_key="test_jwt_token")
+    
+    assert isinstance(api.characters, CharactersEndpoint)
+    # Should return same instance (lazy initialization)
+    assert api.characters is api.characters
