@@ -28,6 +28,7 @@ def test_request_calls_rate_limiter():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     # Mock successful response
@@ -40,8 +41,9 @@ def test_request_calls_rate_limiter():
     endpoint = ConcreteEndpoint(client)
     endpoint._request('GET', '/path')
     
-    # Should call wait_if_needed
-    client.rate_limiter.wait_if_needed.assert_called_once()
+    # Should call get_wait_duration
+    client.rate_limiter.get_wait_duration.assert_called_once()
+
 
 
 def test_request_makes_http_call():
@@ -49,6 +51,7 @@ def test_request_makes_http_call():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     mock_response = Mock(spec=Response)
@@ -74,6 +77,7 @@ def test_request_updates_rate_limiter():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     mock_response = Mock(spec=Response)
@@ -96,6 +100,7 @@ def test_request_raises_authentication_error_on_401():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     mock_response = Mock(spec=Response)
@@ -116,6 +121,7 @@ def test_request_raises_rate_limit_error_on_429():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     mock_response = Mock(spec=Response)
@@ -136,6 +142,7 @@ def test_request_raises_api_error_on_4xx_5xx():
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
     client.rate_limiter = Mock()
+    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
     
     mock_response = Mock(spec=Response)

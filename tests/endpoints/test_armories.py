@@ -45,9 +45,9 @@ def test_get_profile():
         'CharacterName': '캐릭',
         'CharacterLevel': 60,
         'CharacterClassName': '클래스',
-        'ItemAvgLevel': '1600.00',
-        'ItemMaxLevel': '1600.00'
+        'ItemAvgLevel': '1600.00'
     })
+
     
     profile = endpoint.get_profile("테스트캐릭")
     
@@ -166,13 +166,14 @@ def test_get_ark_passive():
     """get_ark_passive는 GET /arkpassive를 호출해야 합니다."""
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
-    endpoint._request = Mock(return_value={'IsOpen': True, 'Points': [], 'Effects': []})
+    endpoint._request = Mock(return_value={'IsArkPassive': True, 'Points': [], 'Effects': []})
     
     passive = endpoint.get_ark_passive("테스트캐릭")
     
     endpoint._request.assert_called_once_with('GET', '/테스트캐릭/arkpassive')
     assert passive is not None
-    assert passive.is_open is True
+    assert passive.is_ark_passive is True
+
 
 
 def test_get_ark_grid():
@@ -197,8 +198,9 @@ def test_get_total_info():
     client = Mock(spec=LostArkAPI)
     endpoint = ArmoriesEndpoint(client)
     endpoint._request = Mock(return_value={
-        'ArmoryProfile': {'CharacterName': 'Name', 'CharacterImage': '', 'ExpeditionLevel': 0, 'PvpGradeName': '', 'TownLevel': 0, 'TownName': '', 'Title': '', 'GuildMemberGrade': '', 'GuildName': '', 'Stats': [], 'Tendencies': [], 'ServerName': '', 'CharacterLevel': 0, 'CharacterClassName': '', 'ItemAvgLevel': '', 'ItemMaxLevel': ''}
+        'ArmoryProfile': {'CharacterName': 'Name', 'CharacterImage': '', 'ExpeditionLevel': 0, 'PvpGradeName': '', 'TownLevel': 0, 'TownName': '', 'Title': '', 'GuildMemberGrade': '', 'GuildName': '', 'Stats': [], 'Tendencies': [], 'ServerName': '', 'CharacterLevel': 0, 'CharacterClassName': '', 'ItemAvgLevel': ''}
     })
+
     
     from pyloa.models.armory import ArmoryTotal
     total = endpoint.get_total_info("테스트캐릭", filters=['profiles'])

@@ -19,13 +19,12 @@ def test_armory_profile_from_dict():
         'GuildMemberGrade': '길드장',
         'GuildName': '테스트길드',
         'Stats': [{'Type': '치명', 'Value': '1500'}],
-        'Tendencies': [{'Type': '지성', 'Point': 300}],
+        'Tendencies': [{'Type': '지성', 'Point': 300, 'MaxPoint': 500}],
         'ServerName': '루페온',
         'CharacterName': '테스트캐릭',
         'CharacterLevel': 60,
         'CharacterClassName': '바드',
-        'ItemAvgLevel': '1620.00',
-        'ItemMaxLevel': '1620.00'
+        'ItemAvgLevel': '1620.00'
     }
     
     profile = ArmoryProfile.from_dict(data)
@@ -34,7 +33,7 @@ def test_armory_profile_from_dict():
     assert profile.expedition_level == 300
     assert profile.guild_name == '테스트길드'
     assert len(profile.stats) == 1
-    assert profile.stats[0]['Type'] == '치명'
+    assert profile.stats[0].type == '치명'
 
 
 def test_armory_equipment_from_dict():
@@ -91,13 +90,15 @@ def test_armory_skill_from_dict():
 def test_armory_engraving_from_dict():
     """ArmoryEngraving은 API 응답에서 변환되어야 합니다."""
     data = {
-        'Engravings': [{'Name': '원한'}],
-        'Effects': [{'Name': '원한 3'}]
+        'Engravings': [
+            {'Slot': 0, 'Name': '원한', 'Icon': '...', 'Tooltip': '...'}
+        ],
+        'Effects': [{'Name': '원한 3', 'Icon': '...', 'Description': '...'}]
     }
     
     engraving = ArmoryEngraving.from_dict(data)
     assert len(engraving.engravings) == 1
-    assert engraving.engravings[0]['Name'] == '원한'
+    assert engraving.engravings[0].name == '원한'
 
 
 def test_armory_card_from_dict():
@@ -109,7 +110,7 @@ def test_armory_card_from_dict():
 
 def test_armory_gem_from_dict():
     """ArmoryGem은 API 응답에서 변환되어야 합니다."""
-    data = {'Gems': [], 'Effects': []}
+    data = {'Gems': [], 'Effects': None}
     gem = ArmoryGem.from_dict(data)
     assert isinstance(gem.gems, list)
 
@@ -137,9 +138,10 @@ def test_collectible_from_dict():
 def test_ark_passive_from_dict():
     """ArkPassive는 API 응답에서 변환되어야 합니다."""
     data = {
-        'IsOpen': True,
+        'IsArkPassive': True,
         'Points': [],
         'Effects': []
     }
     passive = ArkPassive.from_dict(data)
-    assert passive.is_open is True
+    assert passive.is_ark_passive is True
+
