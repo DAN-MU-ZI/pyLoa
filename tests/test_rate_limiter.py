@@ -1,4 +1,5 @@
 """RateLimiter 테스트."""
+
 import pytest
 from datetime import datetime, timedelta
 from unittest.mock import patch
@@ -16,17 +17,17 @@ def test_rate_limiter_initialization():
 def test_update_from_headers():
     """RateLimiter는 응답 헤더에서 업데이트되어야 합니다."""
     limiter = RateLimiter()
-    
+
     # Simulate response headers
     future_time = datetime.now() + timedelta(seconds=60)
     headers = {
-        'X-RateLimit-Limit': '100',
-        'X-RateLimit-Remaining': '95',
-        'X-RateLimit-Reset': str(int(future_time.timestamp()))
+        "X-RateLimit-Limit": "100",
+        "X-RateLimit-Remaining": "95",
+        "X-RateLimit-Reset": str(int(future_time.timestamp())),
     }
-    
+
     limiter.update(headers)
-    
+
     assert limiter.limit == 100
     assert limiter.remaining == 95
     assert limiter.reset_time is not None
@@ -37,7 +38,7 @@ def test_get_wait_duration_returns_zero_when_remaining():
     limiter = RateLimiter()
     limiter.remaining = 50
     limiter.reset_time = datetime.now() + timedelta(seconds=60)
-    
+
     assert limiter.get_wait_duration() == 0.0
 
 
@@ -47,7 +48,7 @@ def test_get_wait_duration_returns_seconds_when_limited():
     limiter.remaining = 0
     # Set reset time to 5 seconds in the future
     limiter.reset_time = datetime.now() + timedelta(seconds=5)
-    
+
     duration = limiter.get_wait_duration()
     assert 4.0 < duration <= 5.0
 
@@ -57,7 +58,7 @@ def test_get_wait_duration_returns_zero_after_reset():
     limiter = RateLimiter()
     limiter.remaining = 0
     limiter.reset_time = datetime.now() - timedelta(seconds=10)  # Past time
-    
+
     assert limiter.get_wait_duration() == 0.0
 
 
@@ -66,5 +67,5 @@ def test_get_wait_duration_returns_zero_without_reset_time():
     limiter = RateLimiter()
     limiter.remaining = 0
     limiter.reset_time = None
-    
+
     assert limiter.get_wait_duration() == 0.0

@@ -1,4 +1,5 @@
 """사용자 정의 예외 테스트."""
+
 import pytest
 from pyloa.exceptions import (
     PyLoaException,
@@ -38,12 +39,12 @@ def test_exceptions_can_be_raised():
     """모든 사용자 정의 예외는 발생시킬 수 있어야 합니다."""
     with pytest.raises(PyLoaException):
         raise PyLoaException("base error")
-    
+
     with pytest.raises(APIError):
         raise APIError("api error")
-    
+
     with pytest.raises(RateLimitError):
         raise RateLimitError("rate limit error")
-    
+
     with pytest.raises(AuthenticationError):
         raise AuthenticationError("auth error")
