@@ -1,4 +1,4 @@
-# pyLoa
+# pyLoa (py-lostark)
 
 > 로스트아크 API를 위한 Python 래퍼 라이브러리
 
@@ -19,6 +19,12 @@
 - **간단한 인증**: API 키만으로 쉽게 초기화
 - **풍부한 모델링**: API 응답을 Python 객체로 자동 변환
 
+
+## 설치 (Installation)
+
+```bash
+pip install py-lostark
+```
 
 ## 시작하기
 
