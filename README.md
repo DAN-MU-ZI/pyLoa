@@ -15,7 +15,7 @@
 
 - **직관적인 인터페이스**: API 엔드포인트가 자연스럽게 메서드로 매핑
 - **타입 안정성**: Type hints를 통한 IDE 자동완성 및 타입 체크 지원
-- **자동 Rate Limiting**: API 제한(분당 100 요청)을 자동으로 처리
+- **유연한 Rate Limiting 제어**: 외부에서 Redis 기반 유량 제어 구현 가능 (예제 제공)
 - **간단한 인증**: API 키만으로 쉽게 초기화
 - **풍부한 모델링**: API 응답을 Python 객체로 자동 변환
 
@@ -166,13 +166,20 @@ calendar = api.game_contents.get_calendar()
 
 #### Rate Limiting 처리
 
-`pyLoa`는 자동으로 Rate Limiting을 처리합니다. API 제한(분당 100 요청)에 도달하면 자동으로 대기합니다.
+> **참고**: v2.0부터 Rate Limiting은 라이브러리 외부에서 제어합니다.
+> 멀티 프로세스 환경에서는 `examples/fastapi-flow-control` 또는 `examples/flask-flow-control` 예제를 참조하세요.
 
 ```python
-# Rate Limiting은 자동으로 처리되므로 별도 작업 불필요
-for i in range(200):
-    # 100번째 요청 후 자동으로 대기
+# 429 오류 처리 예시
+from pyloa import LostArkAPI, RateLimitError
+
+api = LostArkAPI(api_key="your_jwt_token")
+
+try:
     api.news.get_events()
+except RateLimitError:
+    # 외부 유량 제어 로직으로 처리 (예: slowapi, flask-limiter)
+    print("Rate limit 초과, 잠시 후 재시도하세요.")
 ```
 
 #### 에러 처리
@@ -197,7 +204,6 @@ pyLoa/
 ├── pyloa/                  # 메인 패키지
 │   ├── __init__.py        # 패키지 초기화, 주요 클래스 내보내기
 │   ├── client.py          # LostArkAPI 메인 클라이언트
-│   ├── rate_limiter.py    # Rate Limiting 처리
 │   ├── exceptions.py      # 커스텀 예외 정의
 │   ├── endpoints/         # API 엔드포인트 모듈
 │   │   ├── base.py       # BaseEndpoint 추상 클래스
@@ -236,7 +242,7 @@ pyLoa/
 1. **Client Layer** (`LostArkAPI`): 모든 API 접근의 진입점
 2. **Endpoint Layer** (`BaseEndpoint` 및 하위 클래스): 각 API 카테고리별 메서드 제공
 3. **Model Layer** (`BaseModel` 및 하위 클래스): API 응답 데이터를 Python 객체로 변환
-4. **Utility Layer** (`RateLimiter`, `exceptions`): 공통 유틸리티 기능
+4. **Utility Layer** (`exceptions`): 공통 유틸리티 기능
 
 ## 관련 링크
 
