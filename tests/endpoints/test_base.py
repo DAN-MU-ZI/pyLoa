@@ -25,34 +25,10 @@ def test_endpoint_initialization():
     assert endpoint.base_path == "/test"
 
 
-def test_request_calls_rate_limiter():
-    """_request는 요청 전에 속도 제한기를 확인해야 합니다."""
-    client = Mock(spec=LostArkAPI)
-    client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
-    client.session = Mock()
-
-    # Mock successful response
-    mock_response = Mock(spec=Response)
-    mock_response.status_code = 200
-    mock_response.headers = {}
-    mock_response.json.return_value = {"data": "test"}
-    client.session.request.return_value = mock_response
-
-    endpoint = ConcreteEndpoint(client)
-    endpoint._request("GET", "/path")
-
-    # Should call get_wait_duration
-    client.rate_limiter.get_wait_duration.assert_called_once()
-
-
 def test_request_makes_http_call():
     """_request는 올바른 URL로 HTTP 요청을 수행해야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
 
     mock_response = Mock(spec=Response)
@@ -71,38 +47,15 @@ def test_request_makes_http_call():
     assert result == {"data": "test"}
 
 
-def test_request_updates_rate_limiter():
-    """_request는 응답 헤더에서 속도 제한기를 업데이트해야 합니다."""
-    client = Mock(spec=LostArkAPI)
-    client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
-    client.session = Mock()
-
-    mock_response = Mock(spec=Response)
-    mock_response.status_code = 200
-    mock_response.headers = {"X-RateLimit-Remaining": "95"}
-    mock_response.json.return_value = {"data": "test"}
-    client.session.request.return_value = mock_response
-
-    endpoint = ConcreteEndpoint(client)
-    endpoint._request("GET", "/path")
-
-    # Should update rate limiter
-    client.rate_limiter.update.assert_called_once_with(mock_response.headers)
-
-
 def test_request_raises_authentication_error_on_401():
     """_request는 401 발생 시 AuthenticationError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
 
     mock_response = Mock(spec=Response)
     mock_response.status_code = 401
-    mock_response.headers = {}  # Add headers
+    mock_response.headers = {}
     mock_response.text = "Unauthorized"
     mock_response.raise_for_status.side_effect = HTTPError()
     client.session.request.return_value = mock_response
@@ -117,13 +70,11 @@ def test_request_raises_rate_limit_error_on_429():
     """_request는 429 발생 시 RateLimitError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
 
     mock_response = Mock(spec=Response)
     mock_response.status_code = 429
-    mock_response.headers = {}  # Add headers
+    mock_response.headers = {}
     mock_response.text = "Too Many Requests"
     mock_response.raise_for_status.side_effect = HTTPError()
     client.session.request.return_value = mock_response
@@ -138,13 +89,11 @@ def test_request_raises_api_error_on_4xx_5xx():
     """_request는 기타 오류 발생 시 APIError를 발생시켜야 합니다."""
     client = Mock(spec=LostArkAPI)
     client.base_url = "https://test.com"
-    client.rate_limiter = Mock()
-    client.rate_limiter.get_wait_duration.return_value = 0
     client.session = Mock()
 
     mock_response = Mock(spec=Response)
     mock_response.status_code = 500
-    mock_response.headers = {}  # Add headers
+    mock_response.headers = {}
     mock_response.text = "Internal Server Error"
     mock_response.raise_for_status.side_effect = HTTPError()
     client.session.request.return_value = mock_response

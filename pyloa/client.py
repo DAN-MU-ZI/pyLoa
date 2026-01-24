@@ -1,7 +1,6 @@
 """LostArkAPI 클라이언트."""
 
 import requests
-from pyloa.rate_limiter import RateLimiter
 
 
 class LostArkAPI:
@@ -21,9 +20,6 @@ class LostArkAPI:
         self.session.headers.update(
             {"authorization": f"bearer {api_key}", "accept": "application/json"}
         )
-
-        # 속도 제한기 초기화
-        self.rate_limiter = RateLimiter()
 
     @property
     def api_key(self) -> str:

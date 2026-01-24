@@ -3,7 +3,6 @@
 import pytest
 from unittest.mock import Mock, patch
 from pyloa.client import LostArkAPI
-from pyloa.rate_limiter import RateLimiter
 
 
 def test_client_initialization():
@@ -22,15 +21,6 @@ def test_client_creates_session_with_headers():
     assert "authorization" in api.session.headers
     assert api.session.headers["authorization"] == "bearer test_jwt_token"
     assert api.session.headers["accept"] == "application/json"
-
-
-def test_client_initializes_rate_limiter():
-    """클라이언트가 RateLimiter 인스턴스를 생성해야 합니다."""
-    api = LostArkAPI(api_key="test_jwt_token")
-
-    assert isinstance(api.rate_limiter, RateLimiter)
-    assert api.rate_limiter.limit == 100
-    assert api.rate_limiter.remaining == 100
 
 
 def test_api_key_is_required():
