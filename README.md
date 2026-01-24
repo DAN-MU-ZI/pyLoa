@@ -5,7 +5,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-95%20passed-brightgreen.svg)]()
 
 ## 개요
 
